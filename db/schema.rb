@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140213073800) do
+ActiveRecord::Schema.define(:version => 20140213195204) do
 
   create_table "items", :force => true do |t|
-    t.string   "ASIN"
+    t.string   "asin"
     t.string   "detail_page_url"
     t.string   "large_image_url"
     t.string   "small_image_url"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20140213073800) do
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "items", ["ASIN"], :name => "index_items_on_ASIN"
+  add_index "items", ["asin"], :name => "index_items_on_ASIN"
   add_index "items", ["category"], :name => "index_items_on_category"
   add_index "items", ["price"], :name => "index_items_on_price"
 
