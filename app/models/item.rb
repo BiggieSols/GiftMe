@@ -1,8 +1,8 @@
 class Item < ActiveRecord::Base
   attr_accessible :res, :ASIN, :detail_page_url, :large_image_url, :small_image_url, 
-                      :medium_image_url, :description, :attributes, :category,
-                      :title, :price, :currency
-                      
+                        :medium_image_url, :description, :attributes, :category,
+                        :title, :price, :currency
+
   attr_accessor :res
   # attr_accessor :res, :ASIN, :detail_page_url, :large_image_url, :small_image_url, 
   #                     :medium_image_url, :description, :attributes, :category,
@@ -28,7 +28,7 @@ class Item < ActiveRecord::Base
 
     item_attributes = self.clean { res.get_element("ItemAttributes") }
     self.category = self.clean { item_attributes.get("Binding") }
-    self.title = self.clean { item_attributes.get("Title") }
+    self.title = self.clean { item_attributes.get("Title") }[0..254]
 
     self.price = self.clean { item_attributes.get_element("ListPrice").get("Amount") }
     self.currency = self.clean { item_attributes.get_element("ListPrice").get("CurrencyCode") }
@@ -39,4 +39,5 @@ class Item < ActiveRecord::Base
       self.currency = self.clean { lowest_new_price.get("CurrencyCode") }
     end
   end
+
 end
