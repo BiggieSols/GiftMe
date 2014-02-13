@@ -11,7 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140211192156) do
+ActiveRecord::Schema.define(:version => 20140212234648) do
+
+  create_table "items", :force => true do |t|
+    t.string   "ASIN"
+    t.string   "detail_page_url"
+    t.string   "large_image_url"
+    t.string   "small_image_url"
+    t.string   "medium_image_url"
+    t.text     "description"
+    t.string   "category"
+    t.integer  "price"
+    t.string   "currency"
+    t.string   "title"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "items", ["ASIN"], :name => "index_items_on_ASIN"
+  add_index "items", ["category"], :name => "index_items_on_category"
+  add_index "items", ["price"], :name => "index_items_on_price"
 
   create_table "users", :force => true do |t|
     t.string   "provider"

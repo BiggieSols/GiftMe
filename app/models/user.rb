@@ -2,9 +2,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid
 
   def self.from_omniauth(auth)
-    puts "\n"*10
-    puts "auth object is a #{auth.class}"
-    puts "\n"*10
+    # Note: auth object is a OmniAuth::AuthHash
 
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
