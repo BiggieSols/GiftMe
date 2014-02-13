@@ -57,15 +57,48 @@ Amazon::Ecs.options = {
 }
 
 SEARCH_INDICES = []
-PAGES = (1..1).to_a
+PAGES = (3..3).to_a
 # PAGES = (1..2).to_a
 
 results = []
 
-SEARCH_INDICES = ['Apparel', 'Appliances', 'Automotive', 'Baby', 'Beauty']
+SEARCH_INDICES = [
+'Books',
+'Classical',
+'Collectibles',
+'DVD',
+'Electronics',
+'Grocery',
+'HealthPersonalCare',
+'HomeGardenIndustrial',
+'Jewelry',
+'Kitchen',
+'LawnAndGarden',
+'Marketplace',
+'Merchants',
+'Miscellaneous',
+'Music',
+'MusicalInstruments',
+'OfficeProducts',
+'OutdoorLiving',
+'PCHardware',
+'PetSupplies',
+'Photo',
+'Software',
+'SportingGoods',
+'Tools',
+'Toys',
+'UnboxVideo',
+'VHS',
+'Video',
+'VideoGames',
+'Watches',
+'Wireless',
+'WirelessAccessories'
+]
 =begin
 
-,
+'Apparel', 'Appliances', 'Automotive', 'Baby', 'Beauty',
 'Books',
 'Classical',
 'Collectibles',

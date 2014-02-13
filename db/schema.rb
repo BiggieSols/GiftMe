@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140213021056) do
+ActiveRecord::Schema.define(:version => 20140213073800) do
 
   create_table "items", :force => true do |t|
     t.string   "ASIN"
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(:version => 20140213021056) do
   add_index "items", ["category"], :name => "index_items_on_category"
   add_index "items", ["price"], :name => "index_items_on_price"
 
+  create_table "unwanted_user_items", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "item_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "unwanted_user_items", ["item_id"], :name => "index_unwanted_user_items_on_item_id"
+  add_index "unwanted_user_items", ["user_id"], :name => "index_unwanted_user_items_on_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
@@ -41,5 +51,15 @@ ActiveRecord::Schema.define(:version => 20140213021056) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
+
+  create_table "wanted_user_items", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "item_id",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "wanted_user_items", ["item_id"], :name => "index_wanted_user_items_on_item_id"
+  add_index "wanted_user_items", ["user_id"], :name => "index_wanted_user_items_on_user_id"
 
 end

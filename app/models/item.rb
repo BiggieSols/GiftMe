@@ -1,4 +1,12 @@
 class Item < ActiveRecord::Base
+  has_many :wanted_user_items
+  has_many :wanting_users, through: :wanted_user_items, source: :user
+
+  has_many :unwanted_user_items
+  has_many :unwanting_user, through: :unwanted_user_items, source: :user
+
+
+
   attr_accessible :res, :ASIN, :detail_page_url, :large_image_url, :small_image_url, 
                         :medium_image_url, :description, :attributes, :category,
                         :title, :price, :currency
@@ -34,7 +42,7 @@ class Item < ActiveRecord::Base
     self.currency = self.clean { item_attributes.get_element("ListPrice").get("CurrencyCode") }
 
     if self.price == nil
-      lowest_new_price = res.get_element("OfferSummary").get_element("LowestNewPrice")
+      lowest_new_price =  self.clean { res.get_element("OfferSummary").get_element("LowestNewPrice") }
       self.price = self.clean { lowest_new_price.get("Amount") }
       self.currency = self.clean { lowest_new_price.get("CurrencyCode") }
     end
