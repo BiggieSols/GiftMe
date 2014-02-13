@@ -1,0 +1,190 @@
+require 'amazon/ecs'
+require 'pry'
+# Set the default options; options will be camelized and converted to REST request parameters.
+# associate_tag and AWS_access_key_id are required options, associate_tag is required option
+# since API version 2011-08-01. 
+#
+# To sign your request, include AWS_secret_key. 
+
+
+# class Item
+
+#   attr_accessor :price, :ASIN
+
+#   def initialize(res)
+#     @ASIN = self.clean { res.get("ASIN") }
+#     @detail_page_url = self.clean { res.get("DetailPageURL") }
+#     @large_image_url = self.clean { res.get_element("LargeImage").get("URL") }
+#     @small_image_url = self.clean { res.get_element("SmallImage").get("URL") }
+#     @medium_image_url = self.clean { res.get_element("MediumImage").get("URL") }
+#     @description = self.clean { res.get_element("EditorialReviews").get_element("EditorialReview").get("Content") }
+
+#     item_attributes = self.clean { res.get_element("ItemAttributes") }
+#     @category = self.clean { item_attributes.get("Binding") }
+#     @title = self.clean { item_attributes.get("Title") }
+
+#     @price = self.clean { item_attributes.get_element("ListPrice").get("Amount") }
+#     @currency = self.clean { item_attributes.get_element("ListPrice").get("CurrencyCode") }
+
+#     if @price == nil
+#       lowest_new_price = res.get_element("OfferSummary").get_element("LowestNewPrice")
+#       @price = self.clean { lowest_new_price.get("Amount") }
+#       @currency = self.clean { lowest_new_price.get("CurrencyCode") }
+#     end
+#   end
+
+#   def clean
+#     begin
+#       yield
+#     rescue
+#       nil
+#     end
+#   end
+# end
+
+# def write_file(result)
+#   File.open("item_details.xml", "w") { |f| f.write(result)}
+# end
+
+AMAZON_APP_ID = 'AKIAIXZI5EUJY4DBCOXQ'
+AMAZON_SECRET = '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'
+ASSOCIATE_ID = 'gif02a6-20'
+
+Amazon::Ecs.options = {
+  :associate_tag => ASSOCIATE_ID,
+  :AWS_access_key_id => AMAZON_APP_ID,       
+  :AWS_secret_key => AMAZON_SECRET
+}
+
+SEARCH_INDICES = []
+PAGES = (1..1).to_a
+# PAGES = (1..2).to_a
+
+results = []
+
+SEARCH_INDICES = ['Apparel', 'Appliances', 'Automotive', 'Baby', 'Beauty']
+=begin
+
+,
+'Books',
+'Classical',
+'Collectibles',
+'DVD',
+'Electronics',
+'Grocery',
+'HealthPersonalCare',
+'HomeGardenIndustrial',
+'Jewelry',
+'Kitchen',
+'LawnAndGarden',
+'Marketplace',
+'Merchants',
+'Miscellaneous',
+'Music',
+'MusicalInstruments',
+'OfficeProducts',
+'OutdoorLiving',
+'PCHardware',
+'PetSupplies',
+'Photo',
+'Software',
+'SportingGoods',
+'Tools',
+'Toys',
+'UnboxVideo',
+'VHS',
+'Video',
+'VideoGames',
+'Watches',
+'Wireless',
+'WirelessAccessories'
+]
+=end
+
+SEARCH_INDICES.each do |index|
+  PAGES.each do |page|
+    res = Amazon::Ecs.item_search(
+      'call', {
+        :response_group => 'Large', 
+        :sort => 'salesrank', 
+        :search_index => index, 
+        :item_page => page 
+      }
+    )
+    puts res
+    results += res.items
+  end
+end
+
+item_results = results.map {|result| Item.new(res: result)}
+
+item_results.each do |item|
+  # item ||= Item.find_by_ASID(item.ASID)
+  item.save #if item.price != nil
+end
+
+
+# results.map { |result| Item.new(result)}
+
+
+binding.pry 
+
+=begin
+
+ASIN = res.get("ASIN")
+detail_page_url = res.get("DetailPageURL")
+large_image_url = res.get_element("LargeImage").get("URL")
+small_image_url = res.get_element("SmallImage").get("URL")
+medium_image_url = res.get_element("MediumImage").get("URL")
+description = res.get_element("EditorialReviews").get_element("EditorialReview").get("Content")
+
+item_attributes = res.get_element("ItemAttributes")
+category = item_attributes.get("Binding")
+price = item_attributes.get_element("ListPrice").get("Amount")
+currency = item_attributes.get_element("ListPrice").get("CurrencyCode")
+title = item_attributes.get("Title")
+
+=end
+
+
+
+# get an image
+# res.first_item.get_element('MediumImage').get('URL'
+
+
+# ['Automotive',
+# 'Baby',
+# 'Beauty',
+# 'Books',
+# 'Classical',
+# 'Collectibles',
+# 'DVD',
+# 'Electronics',
+# 'Grocery',
+# 'HealthPersonalCare',
+# 'HomeGardenIndustrial',
+# 'Jewelry',
+# 'Kitchen',
+# 'LawnAndGarden',
+# 'Marketplace',
+# 'Merchants',
+# 'Miscellaneous',
+# 'Music',
+# 'MusicalInstruments',
+# 'OfficeProducts',
+# 'OutdoorLiving',
+# 'PCHardware',
+# 'PetSupplies',
+# 'Photo',
+# 'Software',
+# 'SportingGoods',
+# 'Tools',
+# 'Toys',
+# 'UnboxVideo',
+# 'VHS',
+# 'Video',
+# 'VideoGames',
+# 'Watches',
+# 'Wireless',
+# 'WirelessAccessories'
+# ]

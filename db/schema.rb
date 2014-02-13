@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140212234648) do
+ActiveRecord::Schema.define(:version => 20140213021056) do
 
   create_table "items", :force => true do |t|
     t.string   "ASIN"
