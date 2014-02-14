@@ -4,7 +4,8 @@ window.GiftMe = {
   Views: {},
   Routers: {},
   initialize: function() {
-    alert('Hello from Backbone!');
+    new GiftMe.Routers.Router({$rootEl: $('#content')});
+    Backbone.history.start();
   }
 };
 

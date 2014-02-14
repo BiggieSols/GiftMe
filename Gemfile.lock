@@ -164,6 +164,7 @@ DEPENDENCIES
   amazon-ecs
   backbone-on-rails
   coffee-rails (~> 3.2.1)
+  ejs
   figaro
   jbuilder
   jquery-rails

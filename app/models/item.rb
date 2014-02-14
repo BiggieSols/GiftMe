@@ -43,6 +43,10 @@ class Item < ActiveRecord::Base
       self.price = self.clean { lowest_new_price.get("Amount") }
       self.currency = self.clean { lowest_new_price.get("CurrencyCode") }
     end
+
+    if ["paperback", "hardcover"].include? self.category
+      self.category = "books"
+    end
   end
 
 end

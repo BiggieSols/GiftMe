@@ -22,27 +22,21 @@ end
 
 gem 'jquery-rails'
 
-gem 'jbuilder'
 
+gem 'ejs'
 gem 'figaro'
-
 gem 'omniauth-facebook'
-
 gem 'koala'
-
 gem 'amazon-ecs'
-
 gem 'pry'
-
 gem 'launchy'
-
 gem 'backbone-on-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -51,4 +45,4 @@ gem 'backbone-on-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
