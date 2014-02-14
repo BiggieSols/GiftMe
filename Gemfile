@@ -22,6 +22,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'jbuilder'
+
 gem 'figaro'
 
 gem 'omniauth-facebook'

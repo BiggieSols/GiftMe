@@ -4,7 +4,10 @@ GiftMe::Application.routes.draw do
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
 
-  resources :users
+  resources :users do
+    resources :items, only: [:index]
+  end
+  resources :items
 
   get '/', to: 'static_pages#home', as: 'root'
 

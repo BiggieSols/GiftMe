@@ -64,6 +64,9 @@ GEM
     hike (1.2.3)
     httpauth (0.2.0)
     i18n (0.6.9)
+    jbuilder (2.0.2)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.2.0)
     journey (1.0.4)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
@@ -162,6 +165,7 @@ DEPENDENCIES
   backbone-on-rails
   coffee-rails (~> 3.2.1)
   figaro
+  jbuilder
   jquery-rails
   koala
   launchy

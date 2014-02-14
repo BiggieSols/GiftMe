@@ -32,7 +32,7 @@ class Item < ActiveRecord::Base
     self.description = self.clean { res.get_element("EditorialReviews").get_element("EditorialReview").get("Content") }
 
     item_attributes = self.clean { res.get_element("ItemAttributes") }
-    self.category = self.clean { item_attributes.get("Binding") }
+    self.category = self.clean { item_attributes.get("Binding").downcase }
     self.title = self.clean { item_attributes.get("Title") }[0..254]
 
     self.price = self.clean { item_attributes.get_element("ListPrice").get("Amount") }
