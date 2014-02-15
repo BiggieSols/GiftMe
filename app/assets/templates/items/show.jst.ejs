@@ -1,1 +1,6 @@
-item goes here!
+<p style="font-size: 2.0em">item goes here!</p>
+<br>
+attributes are: <br>
+<% for(var property in item.attributes) { %>
+  <%= property %>: <%= item.attributes[property] %><br>
+<% } %>

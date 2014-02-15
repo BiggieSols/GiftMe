@@ -16,15 +16,18 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   all_items: function() {
-
+    if(GiftMe.items.length === 0) GiftMe.items.fetch();
+    var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
+    this._swapView(itemsView);
   },
 
   item: function(id) {
     var that = this;
-    
+
     this._getItem(id, function(item) {
-      var item_view = new GiftMe.Views.ItemView({model: item});
-      that._swapView(item_view);
+      // var itemView = new GiftMe.Views.ItemView({model: item});
+      itemView = new GiftMe.Views.ItemView({model: item});
+      that._swapView(itemView);
     });
   },
 
@@ -34,6 +37,8 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     if (!item) {
       GiftMe.items.fetch({
         success: function() {
+          // console.log("here's the item!");
+          // console.log(GiftMe.items.get(id));
           callback(GiftMe.items.get(id));
         }
       });
