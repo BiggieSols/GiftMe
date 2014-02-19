@@ -8,17 +8,19 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     // this.listenTo(this.collection, "add", this.render);
   },
   render: function() {
-    this._renderSkeleton()._renderItems();
-
-    // temp for loading bar
-    var renderedContent = this.loading();
-    this.$el.append(renderedContent);
+    this._renderSkeleton()._renderItems()._renderLoadingBar();
     return this;
   },
 
   _renderSkeleton: function() {
     var renderedContent = this.template({items: this.collection});
     this.$el.html(renderedContent);
+    return this;
+  },
+
+  _renderLoadingBar: function() {
+    var renderedContent = this.loading();
+    this.$el.append(renderedContent);
     return this;
   },
 
@@ -59,10 +61,16 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     $(window).on("scroll", throttledCallback);
   },
 
+  toggleLoadingBar: function() {
+    $('.loading-bar').slideDown("slow");
+  },
+
   nextPage: function () {
     var that = this;
     if ($(window).scrollTop() > $(document).height() - $(window).height() - 10) {
       console.log("scrolled to bottom!");
+      that.toggleLoadingBar();
+
       if (that.collection.page_number < that.collection.total_pages) {
         that.collection.fetch({
           data: { page: ++that.collection.page_number },
@@ -76,5 +84,4 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
       }
     }
   },
-
 });
