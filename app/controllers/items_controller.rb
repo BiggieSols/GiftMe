@@ -19,7 +19,12 @@ class ItemsController < ApplicationController
     @items = @items.where("price <= ?", max_price.to_i) if max_price
 
     # add pagination
-    render json: @items.page(1).per(20)
+    @items = @items.page(params[:page_number]).per(20)
+    render json: {
+                   models: @items, 
+                   page_number: params[:page_number], 
+                   total_pages: @items.total_pages
+                 }
   end
 
 
