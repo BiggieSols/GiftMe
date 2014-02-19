@@ -1,6 +1,5 @@
-<p style="font-size: 2.0em">item goes here!</p>
-<br>
-attributes are: <br>
-<% for(var property in item.attributes) { %>
-  <%= property %>: <%= item.attributes[property] %><br>
-<% } %>
+<div class="item" data-id="<%= item.id %>" style="width:200px; border:1px solid gray; padding:5px">
+  <img src="<%= item.get("medium_image_url") %>" style="width:100%"><br>
+  <p><%= item.get("title") %></p>
+  <p>$<%= parseInt(item.get("price"))/100 %></p>
+</div>

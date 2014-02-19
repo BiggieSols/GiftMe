@@ -18,7 +18,8 @@ class ItemsController < ApplicationController
     @items = @items.where("price >= ?", min_price.to_i) if min_price
     @items = @items.where("price <= ?", max_price.to_i) if max_price
 
-    render json: @items
+    # add pagination
+    render json: @items.page(1).per(20)
   end
 
 

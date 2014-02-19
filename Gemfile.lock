@@ -81,6 +81,9 @@ GEM
     json (1.8.1)
     jwt (0.1.10)
       multi_json (>= 1.5)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     koala (1.9.0)
       addressable
       faraday
@@ -176,6 +179,7 @@ DEPENDENCIES
   figaro
   jbuilder
   jquery-rails
+  kaminari
   koala
   launchy
   omniauth-facebook
