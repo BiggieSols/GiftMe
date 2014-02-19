@@ -1,12 +1,18 @@
 GiftMe.Views.ItemsView = Backbone.View.extend({ 
   template: JST["items/index"],
   itemsSkeleton: JST["items/index_skeleton"],
+  loading: JST["items/loading"],
+
   initialize: function() {
-    this.listenTo(this.collection, "sync", this.render);
+    this.listenToOnce(this.collection, "sync", this.render);
     // this.listenTo(this.collection, "add", this.render);
   },
   render: function() {
     this._renderSkeleton()._renderItems();
+
+    // temp for loading bar
+    var renderedContent = this.loading();
+    this.$el.append(renderedContent);
     return this;
   },
 
@@ -18,17 +24,28 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   _renderItems: function() {
     var itemView, $container;
-    $container = this.$el.find('.items');
 
-    this.collection.models.forEach(function(item) {
+    // initialize on load
+    if(!$container) {
+      // TODO: move all masonry rules into js. running into some rendering issues here
+      $container = this.$el.find('.items');
+      $container.masonry({
+        isFitWidth: true
+      });
+    }
+
+    var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
+
+    itemsToAdd.forEach(function(item) {
       itemView = new GiftMe.Views.ItemView({model: item});
       $container.append(itemView.render().$el);
+      $container.masonry('addItems', itemView.render().$el);
     });
 
     // initialize Masonry after all images have loaded
     $container.imagesLoaded( function() {
-      // $container.masonry();
       $('.item').removeClass("loading");
+      $container.masonry();
     });
 
     this.listenForScroll();
@@ -38,21 +55,22 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   listenForScroll: function () {
     $(window).off("scroll"); // remove past view's listeners
-    var throttledCallback = _.throttle(this.nextPage.bind(this), 200);
+    var throttledCallback = _.throttle(this.nextPage.bind(this), 1000);
     $(window).on("scroll", throttledCallback);
   },
 
   nextPage: function () {
-    var self = this;
+    var that = this;
     if ($(window).scrollTop() > $(document).height() - $(window).height() - 10) {
       console.log("scrolled to bottom!");
-      if (self.collection.page_number < self.collection.total_pages) {
-        self.collection.fetch({
-          data: { page: ++self.collection.page_number },
+      if (that.collection.page_number < that.collection.total_pages) {
+        that.collection.fetch({
+          data: { page: ++that.collection.page_number },
           remove: false,
           wait: true,
           success: function () {
-            console.log("successfully fetched page " + self.collection.page_number);
+            console.log("successfully fetched page " + that.collection.page_number);
+            that._renderItems();
           }
         });
       }
