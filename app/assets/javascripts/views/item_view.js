@@ -1,7 +1,7 @@
 GiftMe.Views.ItemView = Backbone.View.extend({
   events: {
-    'mouseover .item':'highlight',
-    'mouseout .item':'unHighlight'
+    // 'mouseover .item':'highlight',
+    // 'mouseout .item':'unHighlight'
   },
 
   highlight: function(event) {

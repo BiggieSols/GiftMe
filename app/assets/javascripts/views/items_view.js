@@ -7,9 +7,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   render: function() {
     this._renderSkeleton()._renderItems();
     // initialize masonry
-    var msnry = $("#container");
-    msnry.masonry();
-    
     return this;
   },
 
@@ -20,13 +17,20 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
 
   _renderItems: function() {
-    var itemView, $elToFill;
-    $elToFill = this.$el.find('.items');
+    var itemView, $container;
+    $container = this.$el.find('.items');
 
     this.collection.models.forEach(function(item) {
       itemView = new GiftMe.Views.ItemView({model: item});
-      $elToFill.append(itemView.render().$el);
+      $container.append(itemView.render().$el);
     });
+
+    // initialize Masonry after all images have loaded
+    $container.imagesLoaded( function() {
+      $container.masonry();
+      $('.item').removeClass("loading");
+    });
+
     return this;
   }
 });
