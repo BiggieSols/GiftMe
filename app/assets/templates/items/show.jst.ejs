@@ -1,5 +1,5 @@
-<div class="item" data-id="<%= item.id %>">
-  <img src="<%= item.get("medium_image_url") %>" style="width:100%"><br>
-  <p><%= item.get("title") %></p>
+<div class="item img-thumbnail" data-id="<%= item.id %>">
+  <img src="<%= item.escape("large_image_url") %>" style="width:100%"><br>
+  <p><%= item.escape("title") %></p>
   <p>$<%= price %></p>
 </div>

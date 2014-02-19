@@ -1,7 +1,7 @@
 GiftMe.Routers.Router = Backbone.Router.extend({
   initialize: function(options){
     this.$rootEl = options.$rootEl;
-    GiftMe.items = new GiftMe.Collections.Items({category: "all", minPrice: 0, maxPrice: 100000000});
+    GiftMe.items = new GiftMe.Collections.Items({});
     GiftMe.items.fetch();
   },
 

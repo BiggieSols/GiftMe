@@ -1,4 +1,17 @@
 GiftMe.Views.ItemView = Backbone.View.extend({
+  events: {
+    'mouseover .item':'highlight',
+    'mouseout .item':'unHighlight'
+  },
+
+  highlight: function(event) {
+    $(event.currentTarget).addClass("highlight");
+  },
+
+  unHighlight: function(event) {
+    $(event.currentTarget).removeClass("highlight");
+  },
+
   template: JST["items/show"],
 
   tagName: "span",
