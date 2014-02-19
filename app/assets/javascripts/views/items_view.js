@@ -2,12 +2,11 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   template: JST["items/index"],
   itemsSkeleton: JST["items/index_skeleton"],
   initialize: function() {
-    this.listenToOnce(this.collection, "sync", this.render);
-    this.listenTo(this.collection, "add", this.render);
+    this.listenTo(this.collection, "sync", this.render);
+    // this.listenTo(this.collection, "add", this.render);
   },
   render: function() {
     this._renderSkeleton()._renderItems();
-    // initialize masonry
     return this;
   },
 
@@ -28,12 +27,12 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
     // initialize Masonry after all images have loaded
     $container.imagesLoaded( function() {
-      $container.masonry();
-      // $('.item').removeClass("loading");
+      // $container.masonry();
+      $('.item').removeClass("loading");
     });
 
     this.listenForScroll();
-
+    console.log("all pages rendered");
     return this;
   },
 
@@ -45,11 +44,11 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   nextPage: function () {
     var self = this;
-    if ($(window).scrollTop() > $(document).height() - $(window).height() - 50) {
+    if ($(window).scrollTop() > $(document).height() - $(window).height() - 10) {
       console.log("scrolled to bottom!");
       if (self.collection.page_number < self.collection.total_pages) {
         self.collection.fetch({
-          data: { page: ++self.collection.page_number + 1 },
+          data: { page: ++self.collection.page_number },
           remove: false,
           wait: true,
           success: function () {
