@@ -6,6 +6,10 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
   render: function() {
     this._renderSkeleton()._renderItems();
+    // initialize masonry
+    var msnry = $("#container");
+    msnry.masonry();
+    
     return this;
   },
 
