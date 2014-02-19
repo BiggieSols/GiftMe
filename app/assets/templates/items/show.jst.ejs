@@ -1,5 +1,5 @@
-<div class="item" data-id="<%= item.id %>" style="width:200px; border:1px solid gray; padding:5px">
+<div class="item" data-id="<%= item.id %>">
   <img src="<%= item.get("medium_image_url") %>" style="width:100%"><br>
   <p><%= item.get("title") %></p>
-  <p>$<%= parseInt(item.get("price"))/100 %></p>
+  <p>$<%= price %></p>
 </div>
