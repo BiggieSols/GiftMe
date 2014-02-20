@@ -8,13 +8,13 @@ Amazon::Ecs.options = {
 }
 
 SEARCH_INDICES = []
-PAGES = (5..5).to_a
+PAGES = (1..5).to_a
 # PAGES = (1..2).to_a
 
 results = []
 
 SEARCH_INDICES = [
-'Books']
+'Books', 'VideoGames', 'Electronics', 'DVD', 'OutdoorLiving']
 
 =begin
 ,
