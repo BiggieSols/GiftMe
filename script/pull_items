@@ -84,18 +84,6 @@ item_results.each do |item|
   end
   item.save
   puts "ASIN is #{item.asin}"
-  # puts "\n"*4
-
-  # puts "\n\n\n found item in db! id is: #{item.id} \n\n\n" if item.id
-
-  # puts item.asin
-  # puts "\n"*3
-  # puts item.asin
-  # puts "\n"*3
-  # if item.price && item.price > 0
-  #   item.save 
-  #   puts "item saved to db. ASIN: #{item.asin}"
-  # end
 end
 
 binding.pry 
