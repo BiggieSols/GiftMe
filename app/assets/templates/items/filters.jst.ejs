@@ -1,17 +1,35 @@
-<form id="item-filters">
-  <label for="min-price">Minimum Price</label>
-  <input type="text" name="minPrice" id="min-price">
+<form id="item-filters" class="form-inline"> <!-- class="navbar-form navbar-left"> -->
+  <div class="form-group">
 
-  <label for="max-price">Maximum Price</label>
-  <input type="text" name="maxPrice" id="max-price">
+    <div class="col-xs-3">
+      <!-- <label for="min-price">Minimum Price</label> -->
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <input type="text" name="minPrice" id="min-price" class="form-control" placeholder="Minimum Price">
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <!-- <label for="max-price">Maximum Price</label> -->
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <input type="text" name="maxPrice" id="max-price" class="form-control" placeholder="Maximum Price">
+      </div>
+    </div>
 
-  <label for="category">Category</label>
-  <select id="category" name="category">
-    <option value=""></option>
-    <option value="books">Books</option>
-    <option value="electronics">Electronics</option>
-    <option value="video game">Video Games</option>
-  </select>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <!-- <label for="category">Category</label> -->
+        <select id="category" name="category" class="form-control" placeholder="Category">
+          <option value="all">Category</option>
+          <option value="books">Books</option>
+          <option value="electronics">Electronics</option>
+          <option value="video game">Video Games</option>
+        </select>
+      </div>
+    </div>
 
-  <input type="submit" value="Search">
+    <div class="col-xs-3">
+      <input type="submit" value="Search" class="btn btn-primary btn-md">
+    </div>
+  </div>
 </form>
