@@ -5,8 +5,8 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   initialize: function() {
     this.listenToOnce(this.collection, "sync", this.render);
-    // this.listenTo(this.collection, "add", this.render);
   },
+
   render: function() {
     this._renderSkeleton()._renderItems()._renderLoadingBar();
     this._toggleLoadingBar();
@@ -35,6 +35,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
       $container.masonry({
         isFitWidth: true
       });
+      // $('.items').css("display", "none");
     }
 
     var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
@@ -46,9 +47,11 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     });
 
     // initialize Masonry after all images have loaded
+    var that = this;
     $container.imagesLoaded( function() {
-      $('.item').removeClass("loading");
+      // $('.items').css("display", "block");
       $container.masonry();
+      that.$('.item').removeClass("loading");
     });
 
     this.listenForScroll();
