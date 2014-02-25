@@ -2,14 +2,44 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   template: JST["items/index"],
   itemsSkeleton: JST["items/index_skeleton"],
   loading: JST["items/loading"],
+  filters: JST["items/filters"],
+
+  events: {
+    'submit #item-filters':'resetCollection',
+  },
+
+  resetCollection: function(event) {
+    event.preventDefault();
+    formData = $(event.currentTarget).serializeJSON();
+    this.collection = GiftMe.items = new GiftMe.Collections.Items(formData);
+    var that = this;
+    this.collection.fetch({
+      success: function() {
+        console.log("great success");
+        that._renderItems();
+      }
+    });
+    this.$el.find("#container").empty();
+    // console.log("it works!");
+  },
 
   initialize: function() {
     this.listenToOnce(this.collection, "sync", this.render);
   },
 
   render: function() {
-    this._renderSkeleton()._renderItems()._renderLoadingBar();
+    this._renderSkeleton()
+        ._renderFilters()
+        ._renderItems()
+        ._renderLoadingBar();
+
     this._toggleLoadingBar();
+    return this;
+  },
+
+  _renderFilters: function() {
+    var renderedContent = this.filters();
+    this.$el.find("#filters").html(renderedContent);
     return this;
   },
 
@@ -35,7 +65,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
       $container.masonry({
         isFitWidth: true
       });
-      // $('.items').css("display", "none");
     }
 
     var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
