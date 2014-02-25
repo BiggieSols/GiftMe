@@ -16,11 +16,11 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     this.collection.fetch({
       success: function() {
         console.log("great success");
+        that.$container.html("");
+        that.$container.masonry("destroy");
         that._renderItems();
       }
     });
-    this.$el.find("#container").empty();
-    // console.log("it works!");
   },
 
   initialize: function() {
@@ -55,36 +55,42 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     return this;
   },
 
-  _renderItems: function() {
-    var itemView, $container;
-
-    // initialize on load
-    if(!$container) {
-      // TODO: move all masonry rules into js. running into some rendering issues here
-      $container = this.$el.find('.items');
-      $container.masonry({
-        isFitWidth: true
-      });
-    }
-
-    var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
-
+  _append: function(itemsToAdd, $container) {
+    var that = this;
     itemsToAdd.forEach(function(item) {
       itemView = new GiftMe.Views.ItemView({model: item});
-      $container.append(itemView.render().$el);
-      $container.masonry('addItems', itemView.render().$el);
+      that.$container.append(itemView.render().$el);
+      that.$container.masonry('addItems', itemView.render().$el);
     });
 
     // initialize Masonry after all images have loaded
-    var that = this;
-    $container.imagesLoaded( function() {
-      // $('.items').css("display", "block");
-      $container.masonry();
+    that.$container.imagesLoaded( function() {
+      that.$container.masonry();
       that.$('.item').removeClass("loading");
     });
+    return this;
+  },
+
+   _renderItems: function() {
+    var itemView;
+
+    // initialize masonry
+    this.$container = this.$el.find('.items');
+    this.$container.masonry({
+      isFitWidth: true
+    });
+
+    var itemsToAdd = this.collection.models;
+    this._append(itemsToAdd);
 
     this.listenForScroll();
     console.log("all pages rendered");
+    return this;
+  },
+
+  _renderNewItems: function() {
+    var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
+    this._append(itemsToAdd);
     return this;
   },
 
@@ -110,7 +116,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
           wait: true,
           success: function () {
             console.log("successfully fetched page " + that.collection.page_number);
-            that._renderItems();
+            that._renderNewItems();
           }
         });
       }
