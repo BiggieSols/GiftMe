@@ -2,7 +2,9 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   initialize: function(options){
     this.$rootEl = options.$rootEl;
     GiftMe.items = new GiftMe.Collections.Items({});
+    GiftMe.currentUser = new GiftMe.Models.User({id: "current"});
     GiftMe.items.fetch();
+    GiftMe.currentUser.fetch();
   },
 
   routes: {

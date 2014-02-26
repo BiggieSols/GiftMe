@@ -1,0 +1,8 @@
+test
+<button>
+  <% if(_.include(user.get("wanted_item_ids"), item.id)) { %>
+    Remove
+  <% } else { %>
+    Add
+  <% } %>
+</button>
