@@ -1,8 +1,5 @@
-test
-<button>
-  <% if(_.include(user.get("wanted_item_ids"), item.id)) { %>
-    Remove
-  <% } else { %>
-    Add
-  <% } %>
-</button>
+<% if(_.include(user.get("wanted_item_ids"), item.id)) { %>
+  <button class="btn btn-danger btn-sm">Remove</button>
+<% } else { %>
+  <button class="btn btn-primary btn-sm">Add</button>
+<% } %>

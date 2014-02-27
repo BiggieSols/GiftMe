@@ -4,4 +4,12 @@ class UsersController < ApplicationController
     @user = User.find(user_id)
     render 'show.json.jbuilder'
   end
+
+  def update
+    puts "\n"*10
+    puts params
+    puts "\n"*10
+    current_user.wanted_item_ids = params[:wanted_item_ids]
+    head :ok
+  end
 end
