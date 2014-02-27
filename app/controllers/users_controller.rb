@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     puts params
     puts "\n"*10
     current_user.wanted_item_ids = params[:wanted_item_ids]
-    head :ok
+    @user = current_user
+    render 'show.json.jbuilder'
   end
 end
