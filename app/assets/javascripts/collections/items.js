@@ -1,8 +1,10 @@
 GiftMe.Collections.Items = Backbone.Collection.extend({
   initialize: function(options) {
+    // var options = options || {};
     if(options.minPrice) this.minPrice = options.minPrice * 100;
     if(options.maxPrice) this.maxPrice = options.maxPrice * 100;
     this.category = options.category;
+    this.userId = options.userId;
   },
 
   url: function() {
@@ -12,6 +14,7 @@ GiftMe.Collections.Items = Backbone.Collection.extend({
     if(this.category) root += ("&category=" + this.category);
     if(this.minPrice) root += ("&min_price=" + this.minPrice);
     if(this.maxPrice) root += ("&max_price=" + this.maxPrice);
+    if(this.userId) root += ("&user_id=" + this.userId);
     return root;
   },
 

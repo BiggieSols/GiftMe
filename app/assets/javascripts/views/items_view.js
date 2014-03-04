@@ -11,6 +11,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   resetCollection: function(event) {
     event.preventDefault();
     formData = $(event.currentTarget).serializeJSON();
+    // TODO: remove the GiftMe.items part since we are re-using this view for specific users
     this.collection = GiftMe.items = new GiftMe.Collections.Items(formData);
     var that = this;
     this.collection.fetch({
