@@ -11,15 +11,18 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   resetCollection: function(event) {
     event.preventDefault();
     formData = $(event.currentTarget).serializeJSON();
-    // TODO: remove the GiftMe.items part since we are re-using this view for specific users
-    this.collection = GiftMe.items = new GiftMe.Collections.Items(formData);
+    this.collection = new GiftMe.Collections.Items(formData);
     var that = this;
     this.collection.fetch({
       success: function() {
         console.log("great success");
+        that._removeLoadingBar();
         that.$container.html("");
         that.$container.masonry("destroy");
-        that._renderItems();
+
+        // note: need to render loading bar first
+        that._renderLoadingBar()._renderItems();
+        that._showLoadingBar();
       }
     });
   },
@@ -31,10 +34,10 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   render: function() {
     this._renderSkeleton()
         ._renderFilters()
-        ._renderItems()
-        ._renderLoadingBar();
+        ._renderLoadingBar()
+        ._renderItems();
 
-    this._toggleLoadingBar();
+    this._showLoadingBar();
     return this;
   },
 
@@ -69,6 +72,8 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
       that.$container.masonry();
       that.$('.item').removeClass("loading");
     });
+
+    this._checkLoadingBar();
     return this;
   },
 
@@ -85,7 +90,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     this._append(itemsToAdd);
 
     this.listenForScroll();
-    console.log("all pages rendered");
     return this;
   },
 
@@ -101,8 +105,20 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     $(window).on("scroll", throttledCallback);
   },
 
-  _toggleLoadingBar: function() {
+  _showLoadingBar: function() {
     $('.loading-bar').slideDown("slow");
+  },
+
+  _removeLoadingBar: function() {
+      console.log("removing loading bar");
+    this.$el.find('.loading-bar').remove();
+  },
+
+  _checkLoadingBar: function() {
+    console.log("testing loading bar");
+    if(this.collection.page_number === this.collection.total_pages) {
+      this._removeLoadingBar();
+    }
   },
 
   nextPage: function () {

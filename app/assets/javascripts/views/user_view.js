@@ -27,8 +27,4 @@ GiftMe.Views.UserView = Backbone.View.extend({
     });
     return this;
   },
-
-  // _renderWantedItems: function() {
-
-  // }
 });
