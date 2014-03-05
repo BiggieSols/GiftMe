@@ -1,4 +1,5 @@
 GiftMe::Application.routes.draw do
+  resource :session, only: [:create, :destroy]
 
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
@@ -7,6 +8,7 @@ GiftMe::Application.routes.draw do
   resources :users do
     resources :items, only: [:index]
   end
+
 
   resources :items
   resources :wanted_user_items

@@ -9,13 +9,19 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
 
   resetCollection: function(event) {
+    var newItems;
+
     event.preventDefault();
+
     formData = $(event.currentTarget).serializeJSON();
-    this.collection = new GiftMe.Collections.Items(formData);
+    newItems = new GiftMe.Collections.Items(formData);
+    if(this.collection.userId) newItems.userId = this.collection.userId;
+
+    // this.collection = new GiftMe.Collections.Items(formData);
+    this.collection = newItems;
     var that = this;
     this.collection.fetch({
       success: function() {
-        console.log("great success");
         that._removeLoadingBar();
         that.$container.html("");
         that.$container.masonry("destroy");

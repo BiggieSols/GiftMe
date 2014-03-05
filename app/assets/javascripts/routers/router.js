@@ -60,6 +60,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     }
   },
 
+  // TODO
   _getUser: function(id, callback) {
     var item = GiftMe.users.get(id);
     if (!item) {
