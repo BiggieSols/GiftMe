@@ -35,6 +35,8 @@ gem 'kaminari'
 
 group :development do
   gem 'redis-rails'
+  # To use debugger
+  gem 'debugger'
 end
 
 # To use ActiveModel has_secure_password
@@ -49,5 +51,3 @@ gem 'jbuilder'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger
-gem 'debugger'
