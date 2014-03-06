@@ -61,5 +61,20 @@ module GiftMe
 
     # app does not initialize during precompile. prevents a heroku error
     config.assets.initialize_on_precompile = false
+
+    if ENV["REDISTOGO_URL"]
+      config = GiftMe::Application.config
+      uri = URI.parse(ENV["REDISTOGO_URL"])
+
+      config.cache_store = [
+        :redis_store, {
+          :host => uri.host,
+          :port => uri.port,
+          :password => uri.password,
+          :namespace => "cache"
+        }
+      ]
+    end
+
   end
 end
