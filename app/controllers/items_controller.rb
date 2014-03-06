@@ -7,9 +7,14 @@ class ItemsController < ApplicationController
     max_price = params[:max_price]
 
     if !uid
+      # note: looks like Redis is actually slowing this down anyway. work on more optimized solution later
       # return AR:Relation of all items
+      # @items = Rails.cache.fetch("item_index", expire_in: 12.hours) do
+      #   Item.where("id > 0")
+      # end
       @items = Item.where("id > 0")
     else
+      # wont bother putting this into Redis for now
       @items = User.find(params[:user_id]).wanted_items
     end
     
