@@ -32,9 +32,9 @@ gem 'pry'
 gem 'launchy'
 gem 'backbone-on-rails'
 gem 'kaminari'
+gem 'redis-rails'
 
 group :development do
-  gem 'redis-rails'
   # To use debugger
   gem 'debugger'
 end
