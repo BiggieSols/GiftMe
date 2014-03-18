@@ -65,19 +65,26 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     return this;
   },
 
-  _append: function(itemsToAdd, $container) {
-    var that = this;
-    itemsToAdd.forEach(function(item) {
-      itemView = new GiftMe.Views.ItemView({model: item});
-      that.$container.append(itemView.render().$el);
-      that.$container.masonry('addItems', itemView.render().$el);
-    });
+  _append: function(itemsToAdd) {
+    if(itemsToAdd.length > 0) {
+      var that = this;
+      itemsToAdd.forEach(function(item) {
+        itemView = new GiftMe.Views.ItemView({model: item});
+        that.$container.append(itemView.render().$el);
+        that.$container.masonry('addItems', itemView.render().$el);
+      });
 
-    // initialize Masonry after all images have loaded
-    that.$container.imagesLoaded( function() {
-      that.$container.masonry();
-      that.$('.item').removeClass("loading");
-    });
+      // initialize Masonry after all images have loaded
+      this.$container.imagesLoaded(function() {
+        that.$container.masonry();
+        that.$('.item').removeClass("loading");
+      });
+
+    } else {
+      var errorView = new GiftMe.Views.NoItemsError();
+      this.$container.html(errorView.render().$el);
+    }
+
 
     this._checkLoadingBar();
     return this;
@@ -93,7 +100,11 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     });
 
     var itemsToAdd = this.collection.models;
-    this._append(itemsToAdd);
+
+    // if(itemsToAdd.length > 0) {
+      this._append(itemsToAdd);
+    // } else {
+    // }
 
     this.listenForScroll();
     return this;
@@ -116,13 +127,16 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
 
   _removeLoadingBar: function() {
-      console.log("removing loading bar");
+    // console.log("removing loading bar");
     this.$el.find('.loading-bar').remove();
   },
 
   _checkLoadingBar: function() {
-    console.log("testing loading bar");
-    if(this.collection.page_number === this.collection.total_pages) {
+    // console.log("testing loading bar");
+    console.log("total pages: " + this.collection.total_pages);
+    console.log("page number: " + this.collection.page_number);
+
+    if(this.collection.page_number >= this.collection.total_pages) {
       this._removeLoadingBar();
     }
   },
