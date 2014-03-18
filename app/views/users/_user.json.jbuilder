@@ -1,1 +1,4 @@
-json.(user, :id, :provider, :uid, :name, :oauth_token, :oauth_expires_at, :created_at, :updated_at, :wanted_item_ids)
+json.(user, :id, :provider, :uid, :name, :oauth_token, :oauth_expires_at, 
+            :created_at, :updated_at, :small_picture_url, :large_picture_url, 
+            :wanted_item_ids
+      )

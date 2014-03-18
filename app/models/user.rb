@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid
+  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url
+
+  before_validation :get_pictures
 
   has_many :wanted_user_items
   has_many :wanted_items, through: :wanted_user_items, source: :item
@@ -29,6 +31,11 @@ class User < ActiveRecord::Base
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
     end
+  end
+
+  def get_pictures
+    self.small_picture_url = facebook.get_picture("me", width: 100)
+    self.large_picture_url = facebook.get_picture("me", width: 400)
   end
 
   def facebook

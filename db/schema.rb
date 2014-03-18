@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140318221452) do
+ActiveRecord::Schema.define(:version => 20140318230408) do
 
   create_table "items", :force => true do |t|
     t.string   "asin"
@@ -60,9 +60,14 @@ ActiveRecord::Schema.define(:version => 20140318221452) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "small_picture_url"
+    t.string   "large_picture_url"
   end
+
+  add_index "users", ["large_picture_url"], :name => "index_users_on_large_picture_url"
+  add_index "users", ["small_picture_url"], :name => "index_users_on_small_picture_url"
 
   create_table "wanted_user_items", :force => true do |t|
     t.integer  "user_id",    :null => false
