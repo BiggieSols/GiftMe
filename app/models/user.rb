@@ -7,6 +7,17 @@ class User < ActiveRecord::Base
   has_many :unwanted_user_items     
   has_many :unwanted_items, through: :unwanted_user_items, source: :item
 
+  has_many :given_user_item_recommendations, 
+              foreign_key: :from_user_id, 
+              class_name: "UserItemRecommendation"
+
+  has_many :received_user_item_recommendations, 
+              foreign_key: :to_user_id, 
+              class_name: "UserItemRecommendation"
+
+  has_many :given_recommended_items, through: :given_user_item_recommendations, source: :item
+  has_many :received_recommended_items, through: :received_user_item_recommendations, source: :item
+
   def self.from_omniauth(auth)
     # Note: auth object is a OmniAuth::AuthHash
 

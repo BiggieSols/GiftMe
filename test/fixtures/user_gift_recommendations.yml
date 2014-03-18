@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  from_user_id: 
+  to_user_id: 
+  gift_id: 1
+
+two:
+  from_user_id: 
+  to_user_id: 
+  gift_id: 1

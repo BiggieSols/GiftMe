@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140213195204) do
+ActiveRecord::Schema.define(:version => 20140318221452) do
 
   create_table "items", :force => true do |t|
     t.string   "asin"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(:version => 20140213195204) do
 
   add_index "unwanted_user_items", ["item_id"], :name => "index_unwanted_user_items_on_item_id"
   add_index "unwanted_user_items", ["user_id"], :name => "index_unwanted_user_items_on_user_id"
+
+  create_table "user_item_recommendations", :force => true do |t|
+    t.integer  "from_user_id", :null => false
+    t.integer  "to_user_id",   :null => false
+    t.integer  "item_id",      :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "user_item_recommendations", ["from_user_id"], :name => "index_user_item_recommendations_on_from_user_id"
+  add_index "user_item_recommendations", ["item_id"], :name => "index_user_item_recommendations_on_item_id"
+  add_index "user_item_recommendations", ["to_user_id"], :name => "index_user_item_recommendations_on_to_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "provider"
