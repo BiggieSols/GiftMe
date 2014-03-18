@@ -31,6 +31,11 @@
           <li>
             <%= link_to "Your Wishlist", "/#/users/#{current_user.id}", class: "top-nav-link" %>
           </li>
+
+          <li>
+            <%= link_to "Your Friends", "/#/friends", class: "top-nav-link" %>
+          </li>
+
           <li>
             <%= link_to("Log Out", signout_path, class: "top-nav-link")%>
           </li>

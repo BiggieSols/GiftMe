@@ -13,5 +13,7 @@ GiftMe::Application.routes.draw do
   resources :items
   resources :wanted_user_items
 
+  resources :friends, only: [:index]
+
   get '/', to: 'static_pages#home', as: 'root'
 end

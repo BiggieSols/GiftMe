@@ -1,0 +1,10 @@
+<h1>Friends</h1>
+
+<h3>You have <%= friends.models.length %> friends using GiftMe</h3>
+<% friends.models.forEach(function(friend) { %>
+  <div class="friend">
+    <a href="<%= "/#/users/" + friend.id %>">
+      <%= friend.escape("name") %>
+    </a>
+  </div>
+<% }) %>

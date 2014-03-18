@@ -13,7 +13,8 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   routes: {
     "users/:id": "user",
     "items": "all_items",
-    "items/:id": "item"
+    "items/:id": "item",
+    "friends":"friends"
   },
 
   user: function(id) {
@@ -43,6 +44,24 @@ GiftMe.Routers.Router = Backbone.Router.extend({
       var itemView = new GiftMe.Views.ItemView({model: item});
       that._swapView(itemView);
     });
+  },
+
+  friends: function() {
+
+    if(GiftMe.friends) {
+      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+      this._swapView(friendsView);
+    } else {    
+      GiftMe.friends = new GiftMe.Collections.Friends();
+      var that = this;
+      GiftMe.friends.fetch({
+        success: function() {
+          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+          that._swapView(friendsView);
+          console.log("friends loaded successfully");
+        }
+      });
+    }
   },
 
   _getItem: function(id, callback) {
