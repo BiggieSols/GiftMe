@@ -1,4 +1,4 @@
-GiftMe.Views.ItemsView = Backbone.View.extend({ 
+GiftMe.Views.ItemsView = Backbone.View.extend({
   template: JST["items/index"],
   itemsSkeleton: JST["items/index_skeleton"],
   loading: JST["items/loading"],
@@ -17,7 +17,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     newItems = new GiftMe.Collections.Items(formData);
     if(this.collection.userId) newItems.userId = this.collection.userId;
 
-    // this.collection = new GiftMe.Collections.Items(formData);
     this.collection = newItems;
     var that = this;
     this.collection.fetch({
@@ -100,11 +99,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     });
 
     var itemsToAdd = this.collection.models;
-
-    // if(itemsToAdd.length > 0) {
-      this._append(itemsToAdd);
-    // } else {
-    // }
+    this._append(itemsToAdd);
 
     this.listenForScroll();
     return this;

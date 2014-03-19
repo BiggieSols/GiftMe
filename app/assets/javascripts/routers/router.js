@@ -8,25 +8,46 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
     GiftMe.items.fetch();
     GiftMe.currentUser.fetch();
+    GiftMe.users.fetch();
   },
 
   routes: {
+    "users/:id/recommended": "recommended_items",
     "users/:id": "user",
     "items": "all_items",
     "items/:id": "item",
     "friends":"friends"
   },
 
+  recommended_items: function(id) {
+    this._showUserItems({id: id, recommended: true});
+  },
+
   user: function(id) {
     // optimize with _getUser method
-    var user = new GiftMe.Models.User({id: id});
+    this._showUserItems({id: id});
+    // var user = new GiftMe.Models.User({id: id});
+    // var that = this;
+    // user.fetch({
+    //   success: function() {
+    //     console.log("it works!");
+    //     var userView = new GiftMe.Views.UserView({model: user});
+    //     that._swapView(userView);
+    //   }
+    // });
+  },
+
+  _showUserItems: function(options) {
+    var id, recommended, params;
     var that = this;
-    user.fetch({
-      success: function() {
-        console.log("it works!");
-        var userView = new GiftMe.Views.UserView({model: user});
-        that._swapView(userView);
-      }
+    
+    id = options.id;
+    recommended = options.recommended;
+    this._getUser(id, function(user) {
+      params = {model: user};
+      if(recommended) params.recommended = true;
+      var userView = new GiftMe.Views.UserView(params);
+      that._swapView(userView);
     });
   },
 
@@ -81,17 +102,17 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
   // TODO
   _getUser: function(id, callback) {
-    var item = GiftMe.users.get(id);
-    if (!item) {
-      GiftMe.items.fetch({
+    var user = GiftMe.users.get(id);
+    if (!user) {
+      GiftMe.users.fetch({
         success: function() {
-          // console.log("here's the item!");
-          // console.log(GiftMe.items.get(id));
-          callback(GiftMe.items.get(id));
+          // console.log("here's the user!");
+          // console.log(GiftMe.users.get(id));
+          callback(GiftMe.users.get(id));
         }
       });
     } else {
-      callback(item);
+      callback(user);
     }
   },
 

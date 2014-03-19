@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  def index
+    @users = User.all
+    render 'index.json.jbuilder'
+  end
+
   def show
     user_id = params[:id] == "current" ? current_user.id : params[:id]
     @user = User.find(user_id)

@@ -1,7 +1,8 @@
 GiftMe.Views.UserView = Backbone.View.extend({
   template: JST["users/show"],
 
-  initialize: function() {
+  initialize: function(options) {
+    this.recommended = options.recommended;
   },
 
   render: function() {
@@ -15,7 +16,10 @@ GiftMe.Views.UserView = Backbone.View.extend({
   },
 
   _renderWantedItems: function() {
-    var items = new GiftMe.Collections.Items({userId: this.model.id});
+    params = {userId: this.model.id};
+    if(this.recommended) params.recommended = true;
+
+    var items = new GiftMe.Collections.Items(params);
     var $elToFill = this.$el.find(".wanted-items");
     items.fetch({
       success: function() {
