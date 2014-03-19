@@ -9,11 +9,11 @@ GiftMe::Application.routes.draw do
     resources :items, only: [:index]
   end
 
-
-  resources :items
-  resources :wanted_user_items
+  resources :items, only: [:index, :show]
+  resources :wanted_user_items, only: [:create, :destroy]
 
   resources :friends, only: [:index]
+  resources :user_item_recommendations, only: [:create, :destroy]
 
   get '/', to: 'static_pages#home', as: 'root'
 end

@@ -5,7 +5,10 @@ class ItemsController < ApplicationController
     uid = params[:user_id]
     min_price = params[:min_price]
     max_price = params[:max_price]
+    recommended = params[:recommended]
 
+
+    # show all items
     if !uid
       # note: looks like Redis is actually slowing this down anyway. work on more optimized solution later
       # return AR:Relation of all items
@@ -13,9 +16,11 @@ class ItemsController < ApplicationController
       #   Item.where("id > 0")
       # end
       @items = Item.where("id > 0")
-    else
+    elsif !recommended
       # wont bother putting this into Redis for now
       @items = User.find(params[:user_id]).wanted_items
+    else
+      @items = User.find(params[:user_id]).received_recommended_items
     end
     
     # lazy-query all included constraints
