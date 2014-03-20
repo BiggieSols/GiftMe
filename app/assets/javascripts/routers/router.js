@@ -24,17 +24,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   user: function(id) {
-    // optimize with _getUser method
     this._showUserItems({id: id});
-    // var user = new GiftMe.Models.User({id: id});
-    // var that = this;
-    // user.fetch({
-    //   success: function() {
-    //     console.log("it works!");
-    //     var userView = new GiftMe.Views.UserView({model: user});
-    //     that._swapView(userView);
-    //   }
-    // });
   },
 
   _showUserItems: function(options) {
@@ -52,7 +42,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   all_items: function() {
-    if(GiftMe.items.length === 0) GiftMe.items.fetch();
+    GiftMe.items.fetch({remove: false});
     // var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
     itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
     this._swapView(itemsView);
