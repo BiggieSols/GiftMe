@@ -14,8 +14,8 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   routes: {
     "users/:id/recommended": "recommended_items",
     "users/:id": "user",
-    "items": "all_items",
     "items/:id": "item",
+    "items": "all_items",
     "friends":"friends"
   },
 
@@ -28,15 +28,17 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   _showItems: function(options) {
-    var id, recommended, params;
-    var that = this;
+    var id, recommended, params, userView, that;
+
+    that = this;
     
     id = options.id;
     recommended = options.recommended;
+
     this._getUser(id, function(user) {
       params = {model: user};
       if(recommended) params.recommended = true;
-      var userView = new GiftMe.Views.UserView(params);
+      userView = new GiftMe.Views.UserView(params);
       that._swapView(userView);
     });
   },
@@ -47,12 +49,16 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     this._swapView(itemsView);
   },
 
+  // TODO: change visibility to "visible" to display item. will want a container view to give the necessary info here
   item: function(id) {
+    console.log("attempting to render single item");
+
     var that = this;
 
     this._getItem(id, function(item) {
       var itemView = new GiftMe.Views.ItemView({model: item});
       that._swapView(itemView);
+      console.log("swapped view");
     });
   },
 
@@ -68,7 +74,6 @@ GiftMe.Routers.Router = Backbone.Router.extend({
         success: function() {
           var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
           that._swapView(friendsView);
-          console.log("friends loaded successfully");
         }
       });
     }

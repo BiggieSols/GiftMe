@@ -24,7 +24,8 @@ GiftMe.Views.UserView = Backbone.View.extend({
     items.fetch({
       success: function() {
         console.log("success!");
-        var itemsView = new GiftMe.Views.ItemsView({collection: items});
+        // var itemsView = new GiftMe.Views.ItemsView({collection: items});
+        itemsView = new GiftMe.Views.ItemsView({collection: items});
         $elToFill.html(itemsView.render().$el);
         // return this;
       }

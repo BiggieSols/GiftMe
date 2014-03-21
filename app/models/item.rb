@@ -2,10 +2,11 @@ class Item < ActiveRecord::Base
   has_many :wanted_user_items
   has_many :wanting_users, through: :wanted_user_items, source: :user
 
-  
   has_many :unwanted_user_items
   has_many :unwanting_user, through: :unwanted_user_items, source: :user
 
+  has_many :user_item_recommendations
+  has_many :recommending_users, through: :user_item_recommendations, source: :user_from
 
   attr_accessible :res, :asin, :detail_page_url, :large_image_url, :small_image_url, 
                         :medium_image_url, :description, :attributes, :category,
@@ -22,6 +23,16 @@ class Item < ActiveRecord::Base
       nil
     end
   end
+
+  # def recommending_users
+  #   # TODO: will cause N+1 Query. need to fix in controller.
+  #   UserItemRecommendation.includes(:item, :user_from)
+  #                         .where(
+  #                           :to_user_id => 5,#current_user.id, 
+  #                           :item_id => self.id
+  #                         )
+  #                         .map(&:user_from)
+  # end
 
   def parse_response
     self.asin = self.clean { res.get("ASIN") }

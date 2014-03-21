@@ -20,7 +20,20 @@ class ItemsController < ApplicationController
       # wont bother putting this into Redis for now
       @items = User.find(params[:user_id]).wanted_items
     else
-      @items = User.find(params[:user_id]).received_recommended_items
+      @items = User.find(params[:user_id])
+                   .received_recommended_items
+                   .includes(:recommending_users)
+
+      # user = User.find(params[:user_id], :include => [
+      #                                       :received_user_item_recommendations => 
+      #                                       [
+      #                                         :item, :user_from
+      #                                       ]
+      #                                     ]
+      #                   )
+      # recommendations = user.received_user_item_recommendations
+      # @items = recommendations.map(&:item);
+      # @recommending_users = recommendations.map(&:user_from);
     end
     
     # lazy-query all included constraints
@@ -29,14 +42,16 @@ class ItemsController < ApplicationController
     @items = @items.where("price <= ?", max_price.to_i) if max_price
 
     # add pagination
-    @items = @items.page(params[:page_number]).per(20)
-    render json: {
-                   models: @items, 
-                   page_number: params[:page_number], 
-                   total_pages: @items.total_pages
-                 }
-  end
+    @page_number = params[:page_number]
+    @items = @items.page(@page_number).per(20)
 
+    render 'index.json.jbuilder' 
+    # render json: {
+    #                models: @items,
+    #                page_number: params[:page_number], 
+    #                total_pages: @items.total_pages
+    #              }
+  end
 
   def show
     @item = Item.find(params[:id])

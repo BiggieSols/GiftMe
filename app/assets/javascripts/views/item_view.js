@@ -1,4 +1,8 @@
 GiftMe.Views.ItemView = Backbone.View.extend({
+  template: JST["items/show"],
+
+  tagName: "span",
+  
   events: {
     // 'mouseover .item':'highlight',
     // 'mouseout .item':'unHighlight'
@@ -12,9 +16,6 @@ GiftMe.Views.ItemView = Backbone.View.extend({
     $(event.currentTarget).removeClass("highlight");
   },
 
-  template: JST["items/show"],
-
-  tagName: "span",
 
   render: function() {
     return this._renderItem()._renderFavoriteButton();

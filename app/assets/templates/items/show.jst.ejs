@@ -14,4 +14,17 @@
       favorite button goes here
     </span>
   </div>
+  <% if(item.get("recommending_users").length > 0) { %>
+    <hr>
+    <div>
+      Recommended by:
+    </div>  
+    <% item.get("recommending_users").forEach(function(user) { %>
+      <span>
+        <a href="<%= '/#/users/' + user.id %>">
+          <img src="<%= user.small_picture_url %>" class="recommending-user">
+        </a>
+      </span>
+    <% }) %>
+  <% } %>
 </div>
