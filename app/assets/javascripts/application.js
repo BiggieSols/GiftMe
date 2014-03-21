@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require underscore
+//= require bootstrap
 //= require backbone
 //= require gift_me
 //= require_tree ../templates
