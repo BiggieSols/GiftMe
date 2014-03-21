@@ -20,14 +20,14 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   recommended_items: function(id) {
-    this._showUserItems({id: id, recommended: true});
+    this._showItems({id: id, recommended: true});
   },
 
   user: function(id) {
-    this._showUserItems({id: id});
+    this._showItems({id: id});
   },
 
-  _showUserItems: function(options) {
+  _showItems: function(options) {
     var id, recommended, params;
     var that = this;
     

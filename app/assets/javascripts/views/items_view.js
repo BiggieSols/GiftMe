@@ -48,7 +48,9 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   _renderFilters: function() {
     var renderedContent = this.filters();
-    this.$el.find("#filters").html(renderedContent);
+    var filterView = new GiftMe.Views.FilterView({collection: this.collection});
+    // this.$el.find("#filters").html(renderedContent);
+    this.$el.find("#filters").html(filterView.render().$el);
     return this;
   },
 
