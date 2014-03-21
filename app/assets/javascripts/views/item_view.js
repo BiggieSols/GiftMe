@@ -2,7 +2,7 @@ GiftMe.Views.ItemView = Backbone.View.extend({
   template: JST["items/show"],
 
   tagName: "span",
-  
+
   events: {
     // 'mouseover .item':'highlight',
     // 'mouseout .item':'unHighlight'
@@ -33,6 +33,11 @@ GiftMe.Views.ItemView = Backbone.View.extend({
     });
     
     this.$el.html(renderedContent);
+
+    this.$el.imagesLoaded(function() {
+        $('.recommending-user').tooltip();
+    });
+    
     return this;
   },
 

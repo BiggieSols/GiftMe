@@ -22,7 +22,7 @@
     <% item.get("recommending_users").forEach(function(user) { %>
       <span>
         <a href="<%= '/#/users/' + user.id %>">
-          <img src="<%= user.small_picture_url %>" class="recommending-user">
+          <img src="<%= user.small_picture_url %>" class="recommending-user" data-toggle="tooltip" data-placement="top" title="<%= user.name %>">
         </a>
       </span>
     <% }) %>
