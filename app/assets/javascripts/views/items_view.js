@@ -1,11 +1,14 @@
 GiftMe.Views.ItemsView = Backbone.View.extend({
-  template: JST["items/index"],
-  itemsSkeleton: JST["items/index_skeleton"],
+  itemsSkeleton: JST["items/index"],
   loading: JST["items/loading"],
   filters: JST["items/filters"],
 
   events: {
     'submit #item-filters':'resetCollection',
+  },
+
+  initialize: function() {
+    this.listenToOnce(this.collection, "sync", this.render);
   },
 
   resetCollection: function(event) {
@@ -32,9 +35,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     });
   },
 
-  initialize: function() {
-    this.listenToOnce(this.collection, "sync", this.render);
-  },
 
   render: function() {
     this._renderSkeleton()
@@ -53,7 +53,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
 
   _renderSkeleton: function() {
-    var renderedContent = this.template({items: this.collection});
+    var renderedContent = this.itemsSkeleton({items: this.collection});
     this.$el.html(renderedContent);
     return this;
   },

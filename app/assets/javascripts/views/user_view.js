@@ -6,7 +6,7 @@ GiftMe.Views.UserView = Backbone.View.extend({
   },
 
   render: function() {
-    return this._renderSkeleton()._renderWantedItems();
+    return this._renderSkeleton()._renderItems();
   },
 
   _renderSkeleton: function() {
@@ -15,7 +15,7 @@ GiftMe.Views.UserView = Backbone.View.extend({
     return this;
   },
 
-  _renderWantedItems: function() {
+  _renderItems: function() {
     params = {userId: this.model.id};
     if(this.recommended) params.recommended = true;
 

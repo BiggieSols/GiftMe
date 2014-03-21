@@ -43,8 +43,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
   all_items: function() {
     GiftMe.items.fetch({remove: false});
-    // var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
-    itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
+    var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
     this._swapView(itemsView);
   },
 
@@ -90,14 +89,12 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     }
   },
 
-  // TODO
+
   _getUser: function(id, callback) {
     var user = GiftMe.users.get(id);
     if (!user) {
       GiftMe.users.fetch({
         success: function() {
-          // console.log("here's the user!");
-          // console.log(GiftMe.users.get(id));
           callback(GiftMe.users.get(id));
         }
       });
