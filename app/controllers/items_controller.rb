@@ -15,10 +15,10 @@ class ItemsController < ApplicationController
       # @items = Rails.cache.fetch("item_index", expire_in: 12.hours) do
       #   Item.where("id > 0")
       # end
-      @items = Item.where("id > 0")
+      @items = Item.where("id > 0").includes(:recommending_users)
     elsif !recommended
       # wont bother putting this into Redis for now
-      @items = User.find(params[:user_id]).wanted_items
+      @items = User.find(params[:user_id]).wanted_items.includes(:recommending_users)
     else
       @items = User.find(params[:user_id])
                    .received_recommended_items

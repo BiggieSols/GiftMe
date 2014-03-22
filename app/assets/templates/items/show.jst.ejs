@@ -14,7 +14,7 @@
       favorite button goes here
     </span>
   </div>
-  <% if(item.get("recommending_users").length > 0) { %>
+  <% if(item.get("recommending_users") && item.get("recommending_users").length > 0) { %>
     <hr>
     <div>
       Recommended by:
