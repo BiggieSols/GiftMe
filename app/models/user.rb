@@ -33,12 +33,25 @@ class User < ActiveRecord::Base
     end
   end
 
+  def friends
+    @friends ||= self.get_friends
+  end
+
   def get_pictures
     self.small_picture_url = facebook.get_picture("me", width: 100)
     self.large_picture_url = facebook.get_picture("me", width: 400)
   end
 
+
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
+  end
+
+  private
+  
+  def get_friends
+    user_fb_friends = current_user.facebook.get_connection("me", "friends")
+    fb_friend_ids = user_fb_friends.map { |friend| friend["id"] }
+    friends = User.where(uid: fb_friend_ids)
   end
 end

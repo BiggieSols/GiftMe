@@ -24,16 +24,7 @@ class Item < ActiveRecord::Base
     end
   end
 
-  # def recommending_users
-  #   # TODO: will cause N+1 Query. need to fix in controller.
-  #   UserItemRecommendation.includes(:item, :user_from)
-  #                         .where(
-  #                           :to_user_id => 5,#current_user.id, 
-  #                           :item_id => self.id
-  #                         )
-  #                         .map(&:user_from)
-  # end
-
+  
   def parse_response
     self.asin = self.clean { res.get("ASIN") }
     self.detail_page_url = self.clean { res.get("DetailPageURL") }
