@@ -40,6 +40,25 @@ class User < ActiveRecord::Base
   def get_pictures
     self.small_picture_url = facebook.get_picture("me", width: 100)
     self.large_picture_url = facebook.get_picture("me", width: 400)
+
+    # switch to FQL Query below. should return a hash - break out the hash into the separate pictures.
+    # NOTE: self.facebook.fql_query("query_str") => hash
+
+    # select pic_small, pic_big
+    # from user
+    # where uid = me()
+
+  end
+
+  def get_friends
+    # use this query to get friends info and create new users en masse
+    """
+    SELECT uid, name, birthday, birthday_date, pic_small, pic_big
+    FROM user 
+    WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) 
+    AND birthday_date != 'null' 
+    """
+
   end
 
 
