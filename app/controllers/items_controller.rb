@@ -24,16 +24,9 @@ class ItemsController < ApplicationController
                    .received_recommended_items
                    .includes(:recommending_users)
 
-      # user = User.find(params[:user_id], :include => [
-      #                                       :received_user_item_recommendations => 
-      #                                       [
-      #                                         :item, :user_from
-      #                                       ]
-      #                                     ]
-      #                   )
-      # recommendations = user.received_user_item_recommendations
-      # @items = recommendations.map(&:item);
-      # @recommending_users = recommendations.map(&:user_from);
+      puts "\n"*5
+      puts "retrieving recommended items"
+      puts "\n"*5
     end
     
     # lazy-query all included constraints
