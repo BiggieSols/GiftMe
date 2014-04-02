@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140318230408) do
+ActiveRecord::Schema.define(:version => 20140402213304) do
 
   create_table "items", :force => true do |t|
     t.string   "asin"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20140318230408) do
     t.datetime "updated_at",        :null => false
     t.string   "small_picture_url"
     t.string   "large_picture_url"
+    t.text     "friend_uids"
   end
 
   add_index "users", ["large_picture_url"], :name => "index_users_on_large_picture_url"

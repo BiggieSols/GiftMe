@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url
+  serialize :friend_uids, JSON
 
-  before_validation :get_pictures
+  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids
+
+  before_validation :get_pictures, :get_friend_ids
 
   has_many :wanted_user_items
   has_many :wanted_items, through: :wanted_user_items, source: :item
@@ -37,17 +39,28 @@ class User < ActiveRecord::Base
     @friends ||= self.get_friends
   end
 
+  def get_friend_ids
+    self.friend_uids = self.facebook.fql_query(<<-FQL
+      SELECT uid2
+      FROM friend 
+      WHERE uid1 = me()
+    FQL
+    ).map {|item| item["uid2"]}
+  end
+
   def get_pictures
-    self.small_picture_url = facebook.get_picture("me", width: 100)
-    self.large_picture_url = facebook.get_picture("me", width: 400)
 
     # switch to FQL Query below. should return a hash - break out the hash into the separate pictures.
     # NOTE: self.facebook.fql_query("query_str") => hash
+    pics_hash = self.facebook.fql_query(<<-FQL
+      SELECT pic_small, pic_big
+      FROM user
+      WHERE uid = me()
+    FQL
+    ).first
 
-    # select pic_small, pic_big
-    # from user
-    # where uid = me()
-
+    self.small_picture_url = pics_hash["pic_small"]
+    self.large_picture_url = pics_hash["pic_big"]
   end
 
   def get_friends
