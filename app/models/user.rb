@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids
 
-  before_validation :get_pictures, :get_friend_ids
+  # before_validation :get_pictures, :get_friend_ids
 
   has_many :wanted_user_items
   has_many :wanted_items, through: :wanted_user_items, source: :item
@@ -49,9 +49,6 @@ class User < ActiveRecord::Base
   end
 
   def get_pictures
-
-    # switch to FQL Query below. should return a hash - break out the hash into the separate pictures.
-    # NOTE: self.facebook.fql_query("query_str") => hash
     pics_hash = self.facebook.fql_query(<<-FQL
       SELECT pic_small, pic_big
       FROM user
@@ -63,15 +60,43 @@ class User < ActiveRecord::Base
     self.large_picture_url = pics_hash["pic_big"]
   end
 
-  def get_friends
-    # use this query to get friends info and create new users en masse
-    """
-    SELECT uid, name, birthday, birthday_date, pic_small, pic_big
-    FROM user 
-    WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) 
-    AND birthday_date != 'null' 
-    """
+  def load_friend_entries
 
+    query_results = self.facebook.fql_query(<<-FQL
+      SELECT uid, name, birthday, birthday_date, pic_small, pic_big
+      FROM user 
+      WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) 
+    FQL
+    )
+
+    # uids = query_results.map {|result| result.uid.to_s}
+    friends = User.where(uid: self.friend_uids)
+
+    puts "\n"*5
+    p friends.map
+    puts "\n"*5
+
+
+    ActiveRecord::Base.transaction do
+      query_results.each do |result|
+        # puts "\n"*5
+        # p result
+        # puts "\n"*5
+        user = friends.select {|friend| friend.uid == result["uid"].to_s}.first || User.new
+
+
+
+        puts user
+        # user = User.new if !user
+
+        user.name = result["name"]
+        #user.birthday_date = result["birthday_date"]
+        user.uid = result["uid"]
+        user.small_picture_url = result["pic_small"]
+        user.large_picture_url = result["pic_big"]
+        user.save
+      end
+    end
   end
 
 

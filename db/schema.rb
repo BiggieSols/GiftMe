@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140402213304) do
+ActiveRecord::Schema.define(:version => 20140402235546) do
 
   create_table "items", :force => true do |t|
     t.string   "asin"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20140402213304) do
 
   add_index "users", ["large_picture_url"], :name => "index_users_on_large_picture_url"
   add_index "users", ["small_picture_url"], :name => "index_users_on_small_picture_url"
+  add_index "users", ["uid"], :name => "index_users_on_uid"
 
   create_table "wanted_user_items", :force => true do |t|
     t.integer  "user_id",    :null => false
