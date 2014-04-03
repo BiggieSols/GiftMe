@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   serialize :friend_uids, JSON
 
-  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids
+  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids, :birthday_date
 
   # before_validation :get_pictures, :get_friend_ids
 
@@ -31,6 +31,9 @@ class User < ActiveRecord::Base
       user.name = auth.info.name
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.get_pictures
+      user.get_friend_ids
+      user.load_friend_entries
       user.save!
     end
   end
@@ -61,7 +64,6 @@ class User < ActiveRecord::Base
   end
 
   def load_friend_entries
-
     query_results = self.facebook.fql_query(<<-FQL
       SELECT uid, name, birthday, birthday_date, pic_small, pic_big
       FROM user 
@@ -69,36 +71,24 @@ class User < ActiveRecord::Base
     FQL
     )
 
-    # uids = query_results.map {|result| result.uid.to_s}
+    # perform a single query and put into array to avoid N+1 issues
     friends = User.where(uid: self.friend_uids)
 
-    puts "\n"*5
-    p friends.map
-    puts "\n"*5
-
-
+    # TODO: prevent database save if entry is not actually changed!!
     ActiveRecord::Base.transaction do
       query_results.each do |result|
-        # puts "\n"*5
-        # p result
-        # puts "\n"*5
         user = friends.select {|friend| friend.uid == result["uid"].to_s}.first || User.new
-
-
-
-        puts user
-        # user = User.new if !user
-
         user.name = result["name"]
-        #user.birthday_date = result["birthday_date"]
+        user.birthday_date = Date.parse(result["birthday_date"])
+        p "birthday date is #{result["birthday_date"].class}"
+
         user.uid = result["uid"]
         user.small_picture_url = result["pic_small"]
         user.large_picture_url = result["pic_big"]
-        user.save
+        user.save# if !(user == initial_user_state)
       end
     end
   end
-
 
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)

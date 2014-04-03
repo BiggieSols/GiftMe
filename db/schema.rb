@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20140402235546) do
     t.string   "small_picture_url"
     t.string   "large_picture_url"
     t.text     "friend_uids"
+    t.datetime "birthday_date"
   end
 
   add_index "users", ["large_picture_url"], :name => "index_users_on_large_picture_url"
