@@ -79,13 +79,35 @@ class User < ActiveRecord::Base
       query_results.each do |result|
         user = friends.select {|friend| friend.uid == result["uid"].to_s}.first || User.new
         user.name = result["name"]
-        user.birthday_date = Date.parse(result["birthday_date"])
-        p "birthday date is #{result["birthday_date"].class}"
+
 
         user.uid = result["uid"]
         user.small_picture_url = result["pic_small"]
         user.large_picture_url = result["pic_big"]
-        user.save# if !(user == initial_user_state)
+
+
+        birthday = result["birthday_date"]
+
+        puts "\n"*5
+        p result
+        p "birthday date is #{result["birthday_date"]}"
+        p "birthday hash is #{birthday}"
+        puts "\n"*5
+
+        user_birthday_date = parse_birthday birthday
+
+        # if !birthday
+        #   user.birthday_date = nil
+        # else
+        #   user.birthday_date = Date.new(
+        #     2014,#birthday[5..8].to_i, 
+        #     birthday[0..1].to_i,
+        #     birthday[3..4].to_i
+        #   )
+        #   puts user.birthday_date
+        # end
+
+        user.save
       end
     end
   end
@@ -100,5 +122,17 @@ class User < ActiveRecord::Base
     user_fb_friends = current_user.facebook.get_connection("me", "friends")
     fb_friend_ids = user_fb_friends.map { |friend| friend["id"] }
     friends = User.where(uid: fb_friend_ids)
+  end
+
+  def parse_birthday(birthday_str)
+    if !birthday_str
+      nil
+    else
+      Date.new(
+        birthday_str[5..8].to_i == 0 ? 2014 : birthday_str[5..8].to_i, 
+        birthday_str[0..1].to_i,
+        birthday_str[3..4].to_i
+      )
+    end
   end
 end
