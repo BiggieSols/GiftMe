@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   serialize :friend_uids_mutual_friend_count, JSON
 
-  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date
+  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date, :account_active
 
   # before_validation :get_pictures, :query_friend_ids
 
@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
     # Note: auth object is a OmniAuth::AuthHash
 
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+      user.account_active = true
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
@@ -108,10 +109,13 @@ class User < ActiveRecord::Base
   end
 
   # private
-  
 
   def get_friends
-    User.where(uid: friend_uids)
+    # create a temporary hash to make this sorting efficient
+    temp_hash = {}
+    mutual_friends_arr = self.friend_uids_mutual_friend_count
+    mutual_friends_arr.each {|hash| temp_hash[hash["uid"].to_s] = hash["mutual_friend_count"]}
+    User.where(uid: temp_hash.keys).sort {|a, b| temp_hash[b.uid] <=> temp_hash[a.uid] }
   end
 
   def parse_birthday(birthday_str)
