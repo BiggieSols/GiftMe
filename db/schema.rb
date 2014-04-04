@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140402235546) do
+ActiveRecord::Schema.define(:version => 20140404193710) do
 
   create_table "items", :force => true do |t|
     t.string   "asin"
@@ -60,11 +60,11 @@ ActiveRecord::Schema.define(:version => 20140402235546) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.string   "small_picture_url"
     t.string   "large_picture_url"
-    t.text     "friend_uids"
+    t.text     "friend_uids_mutual_friend_count"
     t.date     "birthday_date"
   end
 

@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  serialize :friend_uids, JSON
+  serialize :friend_uids_mutual_friend_count, JSON
 
-  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids, :birthday_date
+  attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date
 
   # before_validation :get_pictures, :get_friend_ids
 
@@ -43,12 +43,17 @@ class User < ActiveRecord::Base
   end
 
   def get_friend_ids
-    self.friend_uids = self.facebook.fql_query(<<-FQL
-      SELECT uid2
-      FROM friend 
-      WHERE uid1 = me()
+    self.friend_uids_mutual_friend_count = self.facebook.fql_query(<<-FQL
+      SELECT uid, mutual_friend_count
+      FROM user
+      WHERE uid IN 
+      (
+        SELECT uid2
+        FROM friend 
+        WHERE uid1 = me()
+      )
     FQL
-    ).map {|item| item["uid2"]}
+    )
   end
 
   def get_pictures
@@ -71,42 +76,23 @@ class User < ActiveRecord::Base
     FQL
     )
 
+    # pull friend_uids out of friend_uids_mutual_friend_count hash
+    friend_uids_arr = self.friend_uids_mutual_friend_count
+                          .map {|id_count_hash| id_count_hash["uid"].to_s}
+
     # perform a single query and put into array to avoid N+1 issues
-    friends = User.where(uid: self.friend_uids)
+    friends = User.where(uid: friend_uids_arr)
 
     # TODO: prevent database save if entry is not actually changed!!
     ActiveRecord::Base.transaction do
       query_results.each do |result|
         user = friends.select {|friend| friend.uid == result["uid"].to_s}.first || User.new
         user.name = result["name"]
-
-
         user.uid = result["uid"]
         user.small_picture_url = result["pic_small"]
         user.large_picture_url = result["pic_big"]
-
-
         birthday = result["birthday_date"]
-
-        puts "\n"*5
-        p result
-        p "birthday date is #{result["birthday_date"]}"
-        p "birthday hash is #{birthday}"
-        puts "\n"*5
-
-        user_birthday_date = parse_birthday birthday
-
-        # if !birthday
-        #   user.birthday_date = nil
-        # else
-        #   user.birthday_date = Date.new(
-        #     2014,#birthday[5..8].to_i, 
-        #     birthday[0..1].to_i,
-        #     birthday[3..4].to_i
-        #   )
-        #   puts user.birthday_date
-        # end
-
+        user_birthday_date = parse_birthday(birthday)
         user.save
       end
     end
