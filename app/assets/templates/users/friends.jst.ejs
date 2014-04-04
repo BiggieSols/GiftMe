@@ -4,7 +4,7 @@
 <% friends.models.forEach(function(friend) { %>
   <div class="friend">
     <a href="<%= "/#/users/" + friend.id %>">
-      <img src="<%= friend.escape("small_picture_url") %>">
+      <img data-original="<%= friend.escape("small_picture_url") %>" class="friend-photo lazy">
       <%= friend.escape("name") %>
     </a>
   </div>

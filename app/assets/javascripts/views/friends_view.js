@@ -12,6 +12,7 @@ GiftMe.Views.FriendsView = Backbone.View.extend({
   render: function() {
     var renderedContent = this.template({friends: this.collection});
     this.$el.html(renderedContent);
+    this.$('img.lazy').lazyload();
     return this;
   }
 });
