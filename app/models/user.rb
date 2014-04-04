@@ -115,7 +115,9 @@ class User < ActiveRecord::Base
     temp_hash = {}
     mutual_friends_arr = self.friend_uids_mutual_friend_count
     mutual_friends_arr.each {|hash| temp_hash[hash["uid"].to_s] = hash["mutual_friend_count"]}
-    User.where(uid: temp_hash.keys).sort {|a, b| temp_hash[b.uid] <=> temp_hash[a.uid] }
+    User.where(uid: temp_hash.keys)
+        .includes(:wanted_items)
+        .sort {|a, b| temp_hash[b.uid] <=> temp_hash[a.uid] }
   end
 
   def parse_birthday(birthday_str)
