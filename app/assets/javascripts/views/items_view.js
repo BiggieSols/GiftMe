@@ -140,7 +140,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   nextPage: function () {
     var that = this;
-    if ($(window).scrollTop() > $(document).height() - $(window).height() - 10) {
+    if ($(window).scrollTop() > $(document).height() - $(window).height() - 300) {
       console.log("scrolled to bottom!");
 
       if (that.collection.page_number < that.collection.total_pages) {

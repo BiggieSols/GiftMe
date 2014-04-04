@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date
 
-  # before_validation :get_pictures, :get_friend_ids
+  # before_validation :get_pictures, :query_friend_ids
 
   has_many :wanted_user_items
   has_many :wanted_items, through: :wanted_user_items, source: :item
@@ -32,18 +32,18 @@ class User < ActiveRecord::Base
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.get_pictures
-      user.get_friend_ids
-      user.load_friend_entries
+      user.query_friend_ids
+      user.save_friend_entries
       user.save!
     end
   end
 
   def friends
-    @friends ||= self.get_friends
+    @friends ||= get_friends
   end
 
-  def get_friend_ids
-    self.friend_uids_mutual_friend_count = self.facebook.fql_query(<<-FQL
+  def query_friend_ids
+    query_result = self.facebook.fql_query(<<-FQL
       SELECT uid, mutual_friend_count
       FROM user
       WHERE uid IN 
@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
         FROM friend 
         WHERE uid1 = me()
       )
+      ORDER BY mutual_friend_count DESC
     FQL
     )
   end
@@ -68,7 +69,7 @@ class User < ActiveRecord::Base
     self.large_picture_url = pics_hash["pic_big"]
   end
 
-  def load_friend_entries
+  def save_friend_entries
     query_results = self.facebook.fql_query(<<-FQL
       SELECT uid, name, birthday, birthday_date, pic_small, pic_big
       FROM user 
@@ -77,8 +78,7 @@ class User < ActiveRecord::Base
     )
 
     # pull friend_uids out of friend_uids_mutual_friend_count hash
-    friend_uids_arr = self.friend_uids_mutual_friend_count
-                          .map {|id_count_hash| id_count_hash["uid"].to_s}
+    friend_uids_arr = friend_uids
 
     # perform a single query and put into array to avoid N+1 issues
     friends = User.where(uid: friend_uids_arr)
@@ -98,16 +98,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def friend_uids
+    self.friend_uids_mutual_friend_count
+        .map {|id_count_hash| id_count_hash["uid"].to_s}
+  end
+
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
   end
 
-  private
+  # private
   
+
   def get_friends
-    user_fb_friends = current_user.facebook.get_connection("me", "friends")
-    fb_friend_ids = user_fb_friends.map { |friend| friend["id"] }
-    friends = User.where(uid: fb_friend_ids)
+    User.where(uid: friend_uids)
   end
 
   def parse_birthday(birthday_str)
