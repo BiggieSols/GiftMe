@@ -13,7 +13,29 @@ GiftMe.Views.UserView = Backbone.View.extend({
   changeFocus: function(event) {
     event.preventDefault();
     this.$(".active").removeClass("active");
-    $(event.target).parent().addClass("active");
+    var jqTab = $(event.target).parent();
+    jqTab.addClass("active");
+
+    var id = jqTab.attr("id");
+
+    console.log(jqTab.attr("id"));
+    if(id === "all-recommended") {
+      this.recommended = true;
+    } else {
+      this.recommended = false;
+    }
+
+    this._renderItems();
+
+
+
+
+    /*
+      swap out the items when the user selects a new option
+      look at the id from the jqTab to figure out how to switch out items
+      should just modify items and call call _renderItems
+        also save previous states so the user can switch back and forth between tabs without waiting
+    */
   },
 
   render: function() {
