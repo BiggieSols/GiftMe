@@ -19,12 +19,24 @@ GiftMe.Views.UserView = Backbone.View.extend({
     var id = jqTab.attr("id");
 
     console.log(jqTab.attr("id"));
-    if(id === "all-recommended") {
-      this.recommended = true;
-    } else {
-      this.recommended = false;
-    }
 
+    switch(jqTab.attr("id")) {
+      case "all-recommended":
+        console.log("all-recommended");
+        this.recommended = true;
+        this.from_current_user = false;
+        break;
+      case "recommended-by-you":
+        console.log("recommended-by-you");
+        this.recommended = true;
+        this.from_current_user = true;
+        break;
+      case "wishlist":
+        console.log("wishlist");
+        this.recommended = false;
+        this.from_current_user = false;
+        break;
+    }
     this._renderItems();
 
 
@@ -51,6 +63,7 @@ GiftMe.Views.UserView = Backbone.View.extend({
   _renderItems: function() {
     params = {userId: this.model.id};
     if(this.recommended) params.recommended = true;
+    if(this.from_current_user) params.from_current_user = true;
 
     var items = new GiftMe.Collections.Items(params);
     var $elToFill = this.$el.find(".wanted-items");

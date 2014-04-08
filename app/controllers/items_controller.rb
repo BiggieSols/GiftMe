@@ -14,17 +14,25 @@ class ItemsController < ApplicationController
       # note: looks like Redis is actually slowing this down anyway. work on more optimized solution later
       # return AR:Relation of all items
       # @items = Rails.cache.fetch("item_index", expire_in: 12.hours) do
-      #   Item.where("id > 0")
+      #   Item.scoped
       # end
       @items = Item.scoped.includes(:recommending_users)
     elsif !recommended
       # wont bother putting this into Redis for now
       @items = User.find(params[:user_id]).wanted_items.includes(:recommending_users)
     elsif !from_current_user
+      puts "\n\n\n"
+      puts "getting recommended items from all users"
+      puts "\n\n\n"
+
       @items = User.find(params[:user_id])
                    .received_recommended_items
                    .includes(:recommending_users)
     else
+      puts "\n\n\n"
+      puts "getting recommended items from only the current user"
+      puts "\n\n\n"
+
       item_ids = User.find(5549)
                      .received_user_item_recommendations
                      .where(from_user_id: current_user.id)

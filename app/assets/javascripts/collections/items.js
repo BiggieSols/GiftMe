@@ -6,6 +6,7 @@ GiftMe.Collections.Items = Backbone.Collection.extend({
     this.category = options.category;
     this.userId = options.userId;
     this.recommended = options.recommended;
+    this.from_current_user = options.from_current_user;
   },
 
   url: function() {
@@ -17,6 +18,7 @@ GiftMe.Collections.Items = Backbone.Collection.extend({
     if(this.maxPrice) root += ("&max_price=" + this.maxPrice);
     if(this.userId) root += ("&user_id=" + this.userId);
     if(this.recommended) root += ("&recommended=" + this.recommended);
+    if(this.from_current_user) root += ("&from_current_user=" + this.from_current_user);
     return root;
   },
 
