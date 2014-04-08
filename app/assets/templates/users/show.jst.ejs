@@ -1,6 +1,13 @@
 <h1>
-  Wishlist for <%= user.escape("name") %>
+  <img src="<%= user.escape("large_picture_url") %>" class="profile-picture"><%= user.escape("name") %>
 </h1>
+
+<ul class="nav nav-tabs item-type-selection">
+  <li class="active" id="wishlist"><a href="#"><%= user.escape("name") %>'s Wishlist</a></li>
+  <li id="all-recommended"><a href="#">Recommended Items</a></li>
+  <li id="recommended-by-you"><a href="#">Recommended by You</a></li>
+</ul>
+
 
 
 <div class="wanted-items">

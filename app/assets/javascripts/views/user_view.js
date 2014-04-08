@@ -3,6 +3,17 @@ GiftMe.Views.UserView = Backbone.View.extend({
 
   initialize: function(options) {
     this.recommended = options.recommended;
+    this.pageStatus = options.pageStatus;
+  },
+
+  events: {
+    "click .item-type-selection":"changeFocus"
+  },
+
+  changeFocus: function(event) {
+    event.preventDefault();
+    this.$(".active").removeClass("active");
+    $(event.target).parent().addClass("active");
   },
 
   render: function() {
