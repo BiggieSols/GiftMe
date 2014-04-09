@@ -5,10 +5,6 @@ GiftMe.Views.FriendsView = Backbone.View.extend({
     this.listenToOnce(this.collection, "sync", this.render);
   },
 
-  // test: function() {
-  //   console.log("re-rendering view");
-  // },
-
   render: function() {
     var renderedContent = this.template({friends: this.collection});
     this.$el.html(renderedContent);

@@ -16,29 +16,23 @@ class ItemsController < ApplicationController
       # @items = Rails.cache.fetch("item_index", expire_in: 12.hours) do
       #   Item.scoped
       # end
-      @items = Item.scoped.includes(:recommending_users)
+      @items   = Item.scoped.includes(:recommending_users)
     elsif !recommended
       # wont bother putting this into Redis for now
-      @items = User.find(params[:user_id]).wanted_items.includes(:recommending_users)
+      @items   = User.find(params[:user_id])
+                     .wanted_items
+                     .includes(:recommending_users)
     elsif !from_current_user
-      puts "\n\n\n"
-      puts "getting recommended items from all users"
-      puts "\n\n\n"
-
-      @items = User.find(params[:user_id])
-                   .received_recommended_items
-                   .includes(:recommending_users)
+      @items   = User.find(params[:user_id])
+                     .received_recommended_items
+                     .includes(:recommending_users)
     else
-      puts "\n\n\n"
-      puts "getting recommended items from only the current user"
-      puts "\n\n\n"
-
       item_ids = User.find(params[:user_id])
                      .received_user_item_recommendations
                      .where(from_user_id: current_user.id)
                      .map(&:item_id)
-      @items = Item.where(id: item_ids)
-                   .includes(:recommending_users)
+      @items   = Item.where(id: item_ids)
+                     .includes(:recommending_users)
     end
     
     # lazy-query all included constraints

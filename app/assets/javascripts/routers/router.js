@@ -2,7 +2,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   initialize: function(options){
     this.$rootEl = options.$rootEl;
     GiftMe.items = new GiftMe.Collections.Items({});
-    GiftMe.users = new GiftMe.Collections.Users();
+    GiftMe.users = new GiftMe.Collections.Friends();
     GiftMe.currentUser = new GiftMe.Models.User({id: "current"});
     GiftMe.users.add(GiftMe.currentUser);
 
@@ -63,16 +63,14 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   friends: function() {
-
-    if(GiftMe.friends) {
-      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+    if(GiftMe.users.length > 1) {
+      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.users});
       this._swapView(friendsView);
     } else {    
-      GiftMe.friends = new GiftMe.Collections.Friends();
       var that = this;
-      GiftMe.friends.fetch({
+      GiftMe.users.fetch({
         success: function() {
-          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.users});
           that._swapView(friendsView);
         }
       });
@@ -84,8 +82,6 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     if (!item) {
       GiftMe.items.fetch({
         success: function() {
-          // console.log("here's the item!");
-          // console.log(GiftMe.items.get(id));
           callback(GiftMe.items.get(id));
         }
       });
