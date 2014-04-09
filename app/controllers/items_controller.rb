@@ -33,7 +33,7 @@ class ItemsController < ApplicationController
       puts "getting recommended items from only the current user"
       puts "\n\n\n"
 
-      item_ids = User.find(5549)
+      item_ids = User.find(params[:user_id])
                      .received_user_item_recommendations
                      .where(from_user_id: current_user.id)
                      .map(&:item_id)
