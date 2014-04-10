@@ -15,7 +15,19 @@ GiftMe.FriendSearchView = Backbone.View.extend({
     console.log("Rendering nav");
     var renderedContent = this.template({users: GiftMe.users});
     this.$el.html(renderedContent);
+
     this.$('#friend-selector').select2({
+      data: function() {
+        var data = [];
+        GiftMe.users.models.forEach(function(user) {
+          data.push({
+            id: user.id,
+            text: user.escape("name"),
+            url: user.escape("small_picture_url")
+          });
+        });
+        return {results: data};
+      },
       minimumInputLength: 2,
       placeholder: "Select a friend...",
       width: "300px",
@@ -25,6 +37,7 @@ GiftMe.FriendSearchView = Backbone.View.extend({
 
     this.$('.select2-choice').css("padding", "0px 10px");
     this._identifyFieldChanges();
+
     return this;
   },
 
@@ -32,8 +45,8 @@ GiftMe.FriendSearchView = Backbone.View.extend({
     originalOption = state.element;
     console.log("state is below");
     console.log(state);
-    // return "<img src=" + $(originalOption).data('url') + "' />" + state.text;
-    return state.text;
+    return "<img src='" + state.url + "' class='dropdown-img'/>" + state.text;
+    // return state.text;
   },
 
   _identifyFieldChanges: function() {
