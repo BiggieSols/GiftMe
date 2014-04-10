@@ -4,7 +4,7 @@ GiftMe.FriendSearchView = Backbone.View.extend({
   template: JST['nav/friend_search'],
 
   initialize: function() {
-    this.listenTo(GiftMe.users, "sync", this.render);
+    // this.listenTo(GiftMe.users, "sync", this.render);
   },
 
 

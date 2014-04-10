@@ -8,7 +8,11 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
     GiftMe.items.fetch();
     GiftMe.currentUser.fetch();
-    GiftMe.users.fetch();
+    GiftMe.users.fetch({
+      success: function() {
+        GiftMe.loadNav();
+      }
+    });
   },
 
   routes: {
@@ -19,34 +23,26 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     "friends":"friends"
   },
 
-  recommended_items: function(id) {
-    this._showItems({id: id, recommended: true});
-  },
-
-  user: function(id) {
-    this._showItems({id: id});
-  },
-
-  _showItems: function(options) {
-    var id, recommended, params, userView, that;
-
-    that = this;
-    
-    id = options.id;
-    recommended = options.recommended;
-
-    this._getUser(id, function(user) {
-      params = {model: user};
-      if(recommended) params.recommended = true;
-      userView = new GiftMe.Views.UserView(params);
-      that._swapView(userView);
-    });
-  },
-
   all_items: function() {
     GiftMe.items.fetch({remove: false});
     var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
     this._swapView(itemsView);
+  },
+
+  friends: function() {
+    if(GiftMe.friends) {
+      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+      this._swapView(friendsView);
+    } else {    
+      GiftMe.friends = new GiftMe.Collections.Friends();
+      var that = this;
+      GiftMe.friends.fetch({
+        success: function() {
+          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+          that._swapView(friendsView);
+        }
+      });
+    }
   },
 
   // TODO: change visibility to "visible" to display item. will want a container view to give the necessary info here
@@ -62,22 +58,15 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     });
   },
 
-  friends: function() {
 
-    if(GiftMe.friends) {
-      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
-      this._swapView(friendsView);
-    } else {    
-      GiftMe.friends = new GiftMe.Collections.Friends();
-      var that = this;
-      GiftMe.friends.fetch({
-        success: function() {
-          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
-          that._swapView(friendsView);
-        }
-      });
-    }
+  recommended_items: function(id) {
+    this._showItems({id: id, recommended: true});
   },
+
+  user: function(id) {
+    this._showItems({id: id});
+  },
+
 
   _getItem: function(id, callback) {
     var item = GiftMe.items.get(id);
@@ -108,6 +97,21 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     }
   },
 
+  _showItems: function(options) {
+    var id, recommended, params, userView, that;
+
+    that = this;
+    
+    id = options.id;
+    recommended = options.recommended;
+
+    this._getUser(id, function(user) {
+      params = {model: user};
+      if(recommended) params.recommended = true;
+      userView = new GiftMe.Views.UserView(params);
+      that._swapView(userView);
+    });
+  },
 
   _swapView: function(view) {
     if(this.currentView) {

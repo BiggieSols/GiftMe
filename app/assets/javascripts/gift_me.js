@@ -6,7 +6,7 @@ window.GiftMe = {
   initialize: function() {
     new GiftMe.Routers.Router({$rootEl: $('#content')});
     Backbone.history.start();
-    this.loadNav();
+    // this.loadNav();
   },
 
   loadNav: function() {
