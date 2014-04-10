@@ -8,6 +8,11 @@ class ItemsController < ApplicationController
     from_current_user = params[:from_current_user]
     recommended = params[:recommended]
 
+    puts "\n\n\n\n"
+    puts "request params are: #{params}"
+    puts "\n\n\n\n"
+
+
 
     # show all items
     if !uid

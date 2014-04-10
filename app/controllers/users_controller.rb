@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all
+    @users = current_user.friends #scoped.includes(:wanted_items)
+    @users << current_user
     render 'index.json.jbuilder'
   end
 

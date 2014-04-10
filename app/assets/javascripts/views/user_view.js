@@ -4,6 +4,7 @@ GiftMe.Views.UserView = Backbone.View.extend({
   initialize: function(options) {
     this.recommended = options.recommended;
     this.pageStatus = options.pageStatus;
+    // console.log(options.model);
   },
 
   events: {

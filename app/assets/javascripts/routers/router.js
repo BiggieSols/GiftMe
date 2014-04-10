@@ -2,9 +2,9 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   initialize: function(options){
     this.$rootEl = options.$rootEl;
     GiftMe.items = new GiftMe.Collections.Items({});
-    GiftMe.users = new GiftMe.Collections.Friends();
+    GiftMe.users = new GiftMe.Collections.Users();
     GiftMe.currentUser = new GiftMe.Models.User({id: "current"});
-    GiftMe.users.add(GiftMe.currentUser);
+    // GiftMe.users.add(GiftMe.currentUser);
 
     GiftMe.items.fetch();
     GiftMe.currentUser.fetch();
@@ -93,9 +93,16 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
   _getUser: function(id, callback) {
     var user = GiftMe.users.get(id);
+
+    console.log("un-fetched user is below");
+    console.log(user);
+
     if (!user) {
+      console.log("fetching");
       GiftMe.users.fetch({
         success: function() {
+          console.log("fetched user is below");
+          console.log(user);
           callback(GiftMe.users.get(id));
         }
       });
