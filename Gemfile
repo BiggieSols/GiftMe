@@ -33,6 +33,7 @@ gem 'launchy'
 gem 'backbone-on-rails'
 gem 'kaminari'
 gem 'redis-rails'
+gem 'select2-rails'
 
 group :development do
   # To use debugger

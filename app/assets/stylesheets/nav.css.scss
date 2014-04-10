@@ -56,3 +56,15 @@ body {
   -o-background-size: cover;
   background-size: cover;    
 }
+
+
+.select2-choice {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+
+  .select2-chosen {
+    marign-left: 10px;
+    color: #444444;
+  }
+}

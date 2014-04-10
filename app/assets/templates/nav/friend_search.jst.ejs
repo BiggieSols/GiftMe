@@ -1,6 +1,14 @@
 <form class="navbar-form navbar-left" role="search" id="friend-search">
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="Search">
+
+    <select name="friend-selector" id="friend-selector" class="form-control" data-placeholder="Select a State">
+      <option value="" disabled selected>Search your Friends...</option>
+      <option value="AL">Alabama</option>
+      <option value="AK">Alaska</option>
+      <option value="AZ">Arizona</option>
+      <option value="AR">Arkansas</option>
+    </select>
+
     <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/> 
   </div>
 </form>
