@@ -10,8 +10,8 @@ window.GiftMe = {
   },
 
   loadNav: function() {
-    var friendSearchView = new GiftMe.FriendSearchView();
-    $('#friend-search-form').html(friendSearchView.render().$el);
+    var navFriendSearchView = new GiftMe.Views.NavFriendSearchView();
+    $('#friend-search-form').html(navFriendSearchView.render().$el);
   }
 };
 

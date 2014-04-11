@@ -1,10 +1,10 @@
-GiftMe.FriendSearchView = Backbone.View.extend({
+GiftMe.Views.FriendSearchView = Backbone.View.extend({
   tagName: "span",
 
   template: JST['nav/friend_search'],
 
+  // needs to be overridden in subclasses
   initialize: function() {
-    // this.listenTo(GiftMe.users, "sync", this.render);
   },
 
 
@@ -28,6 +28,10 @@ GiftMe.FriendSearchView = Backbone.View.extend({
     this.render();
   },
 
+  // needs to be overridden in subclasses
+  _formAction: function(params) {
+  },
+
   _generateSelect2Data: function() {
     var data = [];
     GiftMe.users.models.forEach(function(user) {
@@ -43,10 +47,9 @@ GiftMe.FriendSearchView = Backbone.View.extend({
   _identifyFieldChanges: function() {
     var that = this;
     this.$('#friend-selector').on("change", function(event) {
-      var user_id = that.$('.select2-search-choice div span').data("id");
-      console.log("user_id is " + user_id);
-      Backbone.history.navigate("/users/" + user_id, {trigger: true});
-      that._clearForm();
+      params = {};
+      params.user_id = that.$('.select2-search-choice div span').data("id");
+      that._formAction(params);
     });
   },
 
@@ -54,8 +57,8 @@ GiftMe.FriendSearchView = Backbone.View.extend({
     this.$('#friend-selector').select2({
       data: this._generateSelect2Data(),
       minimumInputLength: 2,
-      placeholder: "Select a friend...",
-      width: "300px",
+      placeholder: this.placeholder,
+      width: this.width,
       formatResult: this.dropdownFormat,
       formatSelection: this.chosenItemFormat,
       multiple: true

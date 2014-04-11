@@ -18,7 +18,9 @@ GiftMe.Views.ItemView = Backbone.View.extend({
 
 
   render: function() {
-    return this._renderItem()._renderFavoriteButton();
+    return this._renderItem()
+               ._renderFavoriteButton()
+               ._renderRecommendForm();
   },
 
   _renderItem: function() {
@@ -42,10 +44,17 @@ GiftMe.Views.ItemView = Backbone.View.extend({
   },
 
   _renderFavoriteButton: function() {
-    var $elToUpdate = this.$el.find(".favorite-button");
+    var $elToUpdate = this.$(".favorite-button");
     // console.log($elToUpdate.html());
     var favoriteButtonView = new GiftMe.Views.FavoriteButtonView({model: this.model});
     $elToUpdate.html(favoriteButtonView.render().$el);
+    return this;
+  },
+
+  _renderRecommendForm: function() {
+    var $elToUpdate = this.$(".recommend-item");
+    var recommendBoxView = new GiftMe.Views.ItemFriendSearchView();
+    $elToUpdate.html(recommendBoxView.render().$el);
     return this;
   }
 });
