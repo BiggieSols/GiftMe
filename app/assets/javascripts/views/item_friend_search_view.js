@@ -7,7 +7,8 @@ GiftMe.Views.ItemFriendSearchView = GiftMe.Views.FriendSearchView.extend({
   _formAction: function(params) {
     params.item_id = $(event.currentTarget).closest(".item").data("id");
     console.log(params);
-    // GiftMe.Models.
+    rec = new GiftMe.Models.UserItemRecommendation(params);
+    rec.save();
     // Backbone.history.navigate("/users/" + params.user_id, {trigger: true});
     this._clearForm();
   },
