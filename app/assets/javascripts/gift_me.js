@@ -12,7 +12,9 @@ window.GiftMe = {
   loadNav: function() {
     var navFriendSearchView = new GiftMe.Views.NavFriendSearchView();
     $('#friend-search-form').html(navFriendSearchView.render().$el);
-  }
+  },
+
+  dispatcher: _.clone(Backbone.Events)
 };
 
 $(document).ready(function(){
