@@ -9,11 +9,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   initialize: function() {
     this.listenToOnce(this.collection, "sync", this.render);
-
-    GiftMe.dispatcher.on("recommendation", function(args) {
-      console.log("it worked!");
-      console.log(args);
-    });
   },
 
   resetCollection: function(event) {

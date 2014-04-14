@@ -3,7 +3,15 @@ window.GiftMe = {
   Collections: {},
   Views: {},
   Routers: {},
+
+  showRecommendationConfirm: function() {
+    confirmation = new GiftMe.Views.RecommendationConfirmView();
+    $('#recommendation-confirm-container').html(confirmation.render().$el);
+  },
+
   initialize: function() {
+    this.showRecommendationConfirm();
+    
     new GiftMe.Routers.Router({$rootEl: $('#content')});
     Backbone.history.start();
     // this.loadNav();
