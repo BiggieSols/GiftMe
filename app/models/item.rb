@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  scope :recommended_by_current_user, -> {where(:wanted_user_items === true)}
   has_many :wanted_user_items
   has_many :wanting_users, through: :wanted_user_items, source: :user
 

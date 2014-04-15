@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  scope :activated, -> { where(account_active: true)}
+
   serialize :friend_uids_mutual_friend_count, JSON
 
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date, :account_active
