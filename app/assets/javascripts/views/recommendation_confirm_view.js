@@ -9,16 +9,13 @@ GiftMe.Views.RecommendationConfirmView = Backbone.View.extend({
   },
 
   render: function(userName) {
-    // event.preventDefault();
     var renderedContent = this.template({userName: userName});
     this.$el.html(renderedContent);
-    // console.log(this.$('recommendation-confirm'));
     if(userName) {
-      this.$('.recommendation-confirm').slideDown("fast")
+      this.$('.recommendation-confirm').slideDown("slow")
                                        .delay(1500)
-                                       .slideUp("fast");      
+                                       .slideUp("fast");
     }
-
     return this;
   }
 });

@@ -9,6 +9,13 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
   initialize: function() {
     this.listenToOnce(this.collection, "sync", this.render);
+
+    var that = this;
+
+    GiftMe.dispatcher.on("newFormRender", function() {
+      console.log("items view received trigger");
+      that.$('.recommend-item').html("");
+    });
   },
 
   resetCollection: function(event) {
@@ -47,9 +54,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
   },
 
   _renderFilters: function() {
-    var renderedContent = this.filters();
     var filterView = new GiftMe.Views.FilterView({collection: this.collection});
-    // this.$el.find("#filters").html(renderedContent);
     this.$el.find("#filters").html(filterView.render().$el);
     return this;
   },

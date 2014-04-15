@@ -4,8 +4,8 @@ GiftMe.Views.ItemView = Backbone.View.extend({
   tagName: "span",
 
   events: {
-    // 'mouseover .item':'highlight',
-    // 'mouseout .item':'unHighlight'
+    'mouseenter .item':'showRecommendForm',
+    // 'mouseleave .item':'_removeRecommendForm'
   },
 
   highlight: function(event) {
@@ -16,11 +16,15 @@ GiftMe.Views.ItemView = Backbone.View.extend({
     $(event.currentTarget).removeClass("highlight");
   },
 
+  showRecommendForm: function() {
+    GiftMe.dispatcher.trigger("newFormRender");
+    this._renderRecommendForm();
+  },
 
   render: function() {
     return this._renderItem()
-               ._renderFavoriteButton()
-               ._renderRecommendForm();
+               ._renderFavoriteButton();
+               // ._renderRecommendForm();
   },
 
   _renderItem: function() {
@@ -53,8 +57,12 @@ GiftMe.Views.ItemView = Backbone.View.extend({
 
   _renderRecommendForm: function() {
     var $elToUpdate = this.$(".recommend-item");
-    var recommendBoxView = new GiftMe.Views.ItemFriendSearchView();
-    $elToUpdate.html(recommendBoxView.render().$el);
+    this.recommendBoxView = new GiftMe.Views.ItemFriendSearchView();
+    $elToUpdate.html(this.recommendBoxView.render().$el);
     return this;
+  },
+
+  _removeRecommendForm: function() {
+    if(this.recommendBoxView) this.recommendBoxView.remove();
   }
 });
