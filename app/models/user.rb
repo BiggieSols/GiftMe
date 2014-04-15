@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  scope :activated, -> { where(account_active: true)}
-
   serialize :friend_uids_mutual_friend_count, JSON
 
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date, :account_active
@@ -24,6 +22,13 @@ class User < ActiveRecord::Base
   has_many :given_recommended_items, through: :given_user_item_recommendations, source: :item
   has_many :received_recommended_items, through: :received_user_item_recommendations, source: :item
 
+  def self.current_user=(user)
+    @@current_user = user
+  end
+
+  def self.current_user
+    @@current_user
+  end
 
 
   def self.from_omniauth(auth)

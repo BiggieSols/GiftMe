@@ -40,11 +40,11 @@ class ItemsController < ApplicationController
     @items = @items.where("category = ?", category) if category && category != "all"
     @items = @items.where("price >= ?", min_price.to_i) if min_price
     @items = @items.where("price <= ?", max_price.to_i) if max_price
+    @items = @items.includes :recommending_users
 
     # add pagination
     @page_number = params[:page_number] || 1
     @items = @items.page(@page_number).per(20)
-    @items = @items.includes(:recommending_users)
 
     render 'index.json.jbuilder' 
   end

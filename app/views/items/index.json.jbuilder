@@ -11,7 +11,7 @@ json.models do
       :large_image_url,
       :medium_image_url,
       :price,
-      :title,
+      :shortened_title,
       :updated_at,
       :recommending_users
       )

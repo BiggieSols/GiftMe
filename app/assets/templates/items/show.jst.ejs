@@ -2,7 +2,7 @@
   <a href="<%= item.escape("detail_page_url") %>" target="blank">
     <img src="<%= item.escape("large_image_url") %>" style="width:100%"><br>
     <div>
-      <%= item.escape("title") %>
+      <%= item.escape("shortened_title") %>
     </div>
   </a>
   <% if(item.get("recommending_users") && item.get("recommending_users").length > 0) { %>

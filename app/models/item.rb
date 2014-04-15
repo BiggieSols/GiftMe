@@ -1,12 +1,12 @@
 class Item < ActiveRecord::Base
-  scope :recommended_by_current_user, -> {where(:wanted_user_items === true)}
   has_many :wanted_user_items
   has_many :wanting_users, through: :wanted_user_items, source: :user
 
   has_many :unwanted_user_items
   has_many :unwanting_user, through: :unwanted_user_items, source: :user
 
-  has_many :user_item_recommendations
+  has_many :user_item_recommendations, conditions: proc {["to_user_id = ?", User.current_user.id] }
+
   has_many :recommending_users, through: :user_item_recommendations, source: :user_from
 
   attr_accessible :res, :asin, :detail_page_url, :large_image_url, :small_image_url, 
@@ -23,6 +23,10 @@ class Item < ActiveRecord::Base
     rescue
       nil
     end
+  end
+
+  def shortened_title
+    self.title.length > 50 ? self.title[0..50].rstrip + "..." : self.title
   end
 
   
