@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   has_many :given_recommended_items, through: :given_user_item_recommendations, source: :item
   has_many :received_recommended_items, through: :received_user_item_recommendations, source: :item
 
+
+
   def self.from_omniauth(auth)
     # Note: auth object is a OmniAuth::AuthHash
 
@@ -98,6 +100,8 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  # handle_asynchronously :save_friend_entries, :run_at => Proc.new { 5.seconds.from_now }
 
   def friend_uids
     self.friend_uids_mutual_friend_count

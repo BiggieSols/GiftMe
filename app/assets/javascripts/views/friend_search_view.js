@@ -26,6 +26,7 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
 
   _clearForm: function() {
     this.render();
+    this.$('.select2-input').focus();
   },
 
   // needs to be overridden in subclasses

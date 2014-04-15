@@ -34,6 +34,7 @@ gem 'backbone-on-rails'
 gem 'kaminari'
 gem 'redis-rails'
 gem 'select2-rails'
+gem 'delayed_job_active_record'
 
 group :development do
   # To use debugger
