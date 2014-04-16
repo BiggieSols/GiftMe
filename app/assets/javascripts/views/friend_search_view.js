@@ -48,7 +48,7 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
 
   _identifyFieldChanges: function() {
     var that = this;
-    this.$('#friend-selector').on("change", function(event) {
+    this.$('.friend-selector').on("change", function(event) {
       params = {};
       params.user_id = that.$('.select2-search-choice div span').data("id");
       that._formAction(params);
@@ -56,9 +56,9 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
   },
 
   _initalizeSelect2: function() {
-    this.$('#friend-selector').select2({
+    this.$('.friend-selector').select2({
       data: this._generateSelect2Data(),
-      minimumInputLength: 2,
+      minimumInputLength: 3,
       placeholder: this.placeholder,
       width: this.width,
       formatResult: this.dropdownFormat,
@@ -70,7 +70,7 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
     this._identifyFieldChanges();
   },
 
-  _lazyLoadInitialize: function() {
-    this.$('img.lazy').lazyload({threshold: 100});
-  }
+  // _lazyLoadInitialize: function() {
+  //   this.$('img.lazy').lazyload({threshold: 100});
+  // }
 });

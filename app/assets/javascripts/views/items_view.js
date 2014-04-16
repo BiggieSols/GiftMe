@@ -13,7 +13,6 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     var that = this;
 
     GiftMe.dispatcher.on("newFormRender", function() {
-      console.log("items view received trigger");
       that.$('.recommend-item').html("");
     });
   },

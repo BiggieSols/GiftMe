@@ -11,4 +11,4 @@ GiftMe.Views.FriendsView = Backbone.View.extend({
     this.$('img.lazy').lazyload({threshold: 100});
     return this;
   }
-});
+}); 
