@@ -14,7 +14,15 @@ fb_permissions = [
               ]
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :facebook, ENV['FACEBOOK_APP_ID'], 
-                      ENV['FACEBOOK_SECRET'], 
+  if Rails.env.development?
+    fb_app_id = ENV['FACEBOOK_APP_ID']
+    fb_app_secret = ENV['FACEBOOK_SECRET']
+  else
+    fb_app_id = ENV['FACEBOOK_APP_ID_PROD']
+    fb_app_secret = ENV['FACEBOOK_SECRET_PROD']
+  end
+
+  provider :facebook, fb_app_id, 
+                      fb_app_secret, 
                       scope: fb_permissions.join(", ")
 end
