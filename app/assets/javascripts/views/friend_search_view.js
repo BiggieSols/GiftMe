@@ -16,8 +16,8 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
     return this;
   },
 
+  // override for various sizes
   dropdownFormat: function(state) {
-    return "<img src='" + state.url + "' class='dropdown-img'/> " + state.text;
   },
 
   chosenItemFormat: function(state) {

@@ -4,6 +4,10 @@ GiftMe.Views.NavFriendSearchView = GiftMe.Views.FriendSearchView.extend({
     this.width = "300px";
   },
 
+  dropdownFormat: function(state) {
+    return "<img src='" + state.url + "' class='dropdown-img'/>" + state.text;
+  },
+
   _formAction: function(params) {
     console.log(params);
     Backbone.history.navigate("/users/" + params.user_id, {trigger: true});
