@@ -1,24 +1,43 @@
-#radial-center {
-  /* fallback */
-  background-color: #2F2727;
-  background-image: url(images/radial_bg.png);
-  background-position: center center;
-  background-repeat: no-repeat;
+.splash-page
+{
+  background-color:   #0176A0;
+  background-image:   -moz-radial-gradient(center, ellipse cover, #EEEEEE 0%, #3b5998 100%);
+  background-image:   -webkit-radial-gradient(center, ellipse cover, #EEEEEE 0%, #3b5998 100%);
+  background-image:   -o-radial-gradient(center, ellipse cover, #EEEEEE 0%, #3b5998 100%);
+  background-image:   -ms-radial-gradient(center, ellipse cover, #EEEEEE 0%, #3b5998 100%);
+  background-image:   radial-gradient(center, ellipse cover, #EEEEEE 0%, #3b5998 100%);
+  filter:             progid:DXImageTransform.Microsoft.gradient(startColorstr = '#EEEEEE', endColorstr = '#3b5998', GradientType = 0);
+}
 
-  /* Safari 4-5, Chrome 1-9 */
-  /* Can't specify a percentage size? Laaaaaame. */
-  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#1a82f7), to(#2F2727));
+.app-info {
+  position: absolute;
+  top: 25%;
+  width: 100%
+}
 
-  /* Safari 5.1+, Chrome 10+ */
-  background: -webkit-radial-gradient(circle, #1a82f7, #2F2727);
+.product-name {
+  font-size: 3.0em;
+  color: white;
+  text-shadow: 0 0 40px #3B5995, 0 0 50px rgba(58,89,152,0.3);
+}
 
-  /* Firefox 3.6+ */
-  background: -moz-radial-gradient(circle, #1a82f7, #2F2727);
+.product-info {
+  font-size: 1.3em;
+  color: white;
+  text-shadow: 0 0 40px #3B5995, 0 0 50px rgba(58,89,152,0.3);
+}
 
-  /* IE 10 */
-  background: -ms-radial-gradient(circle, #1a82f7, #2F2727);
+.outer {
+  position: absolute;
+  top: 45%;
+  width: 100%;
+}
 
-  min-height: 100%;
+.inner {
+  text-align: center;
+}
 
-  /* Opera couldn't do radial gradients, then at some point they started supporting the -webkit- syntax, how it kinda does but it's kinda broken (doesn't do sizing) */
+#sign-in img {
+  width: 250px;
+  border-radius: 5px;
 }

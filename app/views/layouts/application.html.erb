@@ -6,8 +6,8 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+<% if current_user %>
 <body>
-  <% if current_user %>
   <nav class="navbar navbar-default navbar-fixed-top" id="top-nav">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -48,23 +48,39 @@
     </div>
   </nav>
   <% else %>
-  <div id="radial-center">
-    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", class: "top-nav-link" %>
-  </div>
-  <% end %>
-
-
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-8-offset-2">
-        <div id="recommendation-confirm-container">
+  <body class="splash-page">
+    <div class="app-info">
+      <div class="inner">
+        <div class="product-name">
+          GiftMe
         </div>
-        <div id="content">
-          <%= yield %>
+        <div class="product-info">
+          Personalized Gift Recommendations
         </div>
       </div>
     </div>
 
-  </div>
-</body>
-</html>
+    <div class="outer">
+      <div class="inner">
+        <a href="/auth/facebook" id="sign-in" class="top-nav-link">
+          <img src="/fb_login.jpg">
+        </a>
+      </div>
+    </div>
+  <% end %>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-8-offset-2">
+          <div id="recommendation-confirm-container">
+          </div>
+          <div id="content">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+  </html>
