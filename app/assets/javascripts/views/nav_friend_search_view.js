@@ -5,7 +5,7 @@ GiftMe.Views.NavFriendSearchView = GiftMe.Views.FriendSearchView.extend({
   },
 
   dropdownFormat: function(state) {
-    return "<img src='" + state.url + "' class='dropdown-img'/>" + state.text;
+    return "<img data-original='" + state.url + "' class='dropdown-img lazy'/> " + state.text;
   },
 
   _formAction: function(params) {

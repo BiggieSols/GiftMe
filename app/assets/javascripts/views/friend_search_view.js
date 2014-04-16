@@ -7,12 +7,13 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
   initialize: function() {
   },
 
-
   render: function() {
-    console.log("Rendering nav");
     var renderedContent = this.template({users: GiftMe.users});
     this.$el.html(renderedContent);
     this._initalizeSelect2();
+
+    // TODO: move to another view? doesn't work within the current element
+
     return this;
   },
 
@@ -67,5 +68,9 @@ GiftMe.Views.FriendSearchView = Backbone.View.extend({
 
     this.$('.select2-choice').css("padding", "0px 10px");
     this._identifyFieldChanges();
+  },
+
+  _lazyLoadInitialize: function() {
+    this.$('img.lazy').lazyload({threshold: 100});
   }
 });
