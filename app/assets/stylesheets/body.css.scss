@@ -1,9 +1,12 @@
 body {
-  // background-color: #333333;
   background-color: #EEEEEE;
-  // margin-top: 60px;
+  padding-top: 0px !important;
 }
 
 #content {
   color: black;
+}
+
+.container {
+  padding-top: 60px;
 }
