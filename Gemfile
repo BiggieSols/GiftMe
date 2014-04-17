@@ -39,9 +39,14 @@ gem 'sendgrid'
 
 gem 'delayed_job_active_record'
 
+
+
 group :development do
   # To use debugger
   gem 'debugger'
+
+  # test emails with letter_opener
+  gem "letter_opener"
 end
 
 # To use ActiveModel has_secure_password

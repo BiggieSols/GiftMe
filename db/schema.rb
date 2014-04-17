@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140415183720) do
+ActiveRecord::Schema.define(:version => 20140417212857) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0, :null => false
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20140415183720) do
     t.text     "friend_uids_mutual_friend_count"
     t.date     "birthday_date"
     t.boolean  "account_active",                  :default => false
+    t.string   "email"
   end
 
   add_index "users", ["account_active"], :name => "index_users_on_account_active"
