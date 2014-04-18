@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140417212857) do
+ActiveRecord::Schema.define(:version => 20140418165451) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0, :null => false
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(:version => 20140417212857) do
   add_index "items", ["asin"], :name => "index_items_on_ASIN"
   add_index "items", ["category"], :name => "index_items_on_category"
   add_index "items", ["price"], :name => "index_items_on_price"
+
+  create_table "rec_notifications", :force => true do |t|
+    t.integer  "user_item_recommendation_id"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
+
+  add_index "rec_notifications", ["user_item_recommendation_id"], :name => "index_rec_notifications_on_user_item_recommendation_id"
 
   create_table "unwanted_user_items", :force => true do |t|
     t.integer  "user_id"
