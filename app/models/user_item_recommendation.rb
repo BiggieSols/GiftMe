@@ -5,4 +5,6 @@ class UserItemRecommendation < ActiveRecord::Base
   belongs_to :user_from, foreign_key: :from_user_id, class_name: "User"
   belongs_to :user_to, foreign_key: :to_user_id, class_name: "User"
   belongs_to :item
+
+  has_many :rec_notifications
 end
