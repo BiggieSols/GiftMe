@@ -86,4 +86,4 @@ item_results.each do |item|
   puts "ASIN is #{item.asin}"
 end
 
-binding.pry 
+# binding.pry 

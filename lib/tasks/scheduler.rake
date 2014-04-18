@@ -1,5 +1,5 @@
 namespace :scheduler do
-  desc "This task is called by the Heroku scheduler add-on"
+    desc "This task is called by the Heroku scheduler add-on"
   
   task :send_item_rec_emails => :environment do
     Notifier.send_rec_notifications
@@ -7,5 +7,9 @@ namespace :scheduler do
 
   task :send_reminders => :environment do
     User.send_reminders
+  end
+
+  task :pull_items => :environment do
+    load 'script/pull_items'
   end
 end
