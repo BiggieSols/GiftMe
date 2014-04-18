@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
       # @items = Rails.cache.fetch("item_index", expire_in: 12.hours) do
       #   Item.scoped
       # end
-<<<<<<< HEAD
       @items = Item.scoped#.includes(:recommending_users)
     elsif !recommended
       # wont bother putting this into Redis for now
@@ -32,30 +31,12 @@ class ItemsController < ApplicationController
       @items = User.find(params[:user_id])
                    .received_recommended_items
 
-=======
-      @items   = Item.scoped.includes(:recommending_users)
-    elsif !recommended
-      # wont bother putting this into Redis for now
-      @items   = User.find(params[:user_id])
-                     .wanted_items
-                     .includes(:recommending_users)
-    elsif !from_current_user
-      @items   = User.find(params[:user_id])
-                     .received_recommended_items
-                     .includes(:recommending_users)
->>>>>>> 09fe461c1b9cb2871b1de29a8645bae4976bdd8e
     else
       item_ids = User.find(params[:user_id])
                      .received_user_item_recommendations
                      .where(from_user_id: current_user.id)
                      .map(&:item_id)
-<<<<<<< HEAD
       @items = Item.where(id: item_ids)
-
-=======
-      @items   = Item.where(id: item_ids)
-                     .includes(:recommending_users)
->>>>>>> 09fe461c1b9cb2871b1de29a8645bae4976bdd8e
     end
 
     

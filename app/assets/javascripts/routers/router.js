@@ -30,13 +30,8 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   friends: function() {
-<<<<<<< HEAD
-    if(GiftMe.friends) {
-      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
-=======
     if(GiftMe.users.length > 1) {
       var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.users});
->>>>>>> 09fe461c1b9cb2871b1de29a8645bae4976bdd8e
       this._swapView(friendsView);
     } else {    
       var that = this;
