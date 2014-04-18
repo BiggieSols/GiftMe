@@ -10,6 +10,6 @@ class UserMailer < ActionMailer::Base
   def friend_join_email(friend, new_user)
     @friend = friend
     @new_user = new_user
-    mail(to: new_user.email, subject: "#{friend.name} just started using GiftScore!")
+    mail(to: @friend.email, subject: "#{@new_user.name} just started using GiftScore!")
   end
 end
