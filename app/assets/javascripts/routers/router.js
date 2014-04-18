@@ -4,7 +4,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     GiftMe.items = new GiftMe.Collections.Items({});
     GiftMe.users = new GiftMe.Collections.Users();
     GiftMe.currentUser = new GiftMe.Models.User({id: "current"});
-    GiftMe.users.add(GiftMe.currentUser);
+    // GiftMe.users.add(GiftMe.currentUser);
 
     GiftMe.items.fetch();
     GiftMe.currentUser.fetch();
@@ -30,15 +30,19 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   friends: function() {
+<<<<<<< HEAD
     if(GiftMe.friends) {
       var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+=======
+    if(GiftMe.users.length > 1) {
+      var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.users});
+>>>>>>> 09fe461c1b9cb2871b1de29a8645bae4976bdd8e
       this._swapView(friendsView);
     } else {    
-      GiftMe.friends = new GiftMe.Collections.Friends();
       var that = this;
-      GiftMe.friends.fetch({
+      GiftMe.users.fetch({
         success: function() {
-          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.friends});
+          var friendsView = new GiftMe.Views.FriendsView({collection: GiftMe.users});
           that._swapView(friendsView);
         }
       });
@@ -73,8 +77,6 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     if (!item) {
       GiftMe.items.fetch({
         success: function() {
-          // console.log("here's the item!");
-          // console.log(GiftMe.items.get(id));
           callback(GiftMe.items.get(id));
         }
       });
@@ -86,9 +88,16 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
   _getUser: function(id, callback) {
     var user = GiftMe.users.get(id);
+
+    console.log("un-fetched user is below");
+    console.log(user);
+
     if (!user) {
+      console.log("fetching");
       GiftMe.users.fetch({
         success: function() {
+          console.log("fetched user is below");
+          console.log(user);
           callback(GiftMe.users.get(id));
         }
       });
