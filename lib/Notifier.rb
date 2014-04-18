@@ -8,8 +8,8 @@ class Notifier
   end
 
   def self.send_welcome_email(new_user)
-    msg = UserMailer.welcome_email(new_user)
-    msg.deliver!  
+    msg = UserMailer.delay.welcome_email(new_user)
+    # msg.deliver!  
   end
 
   def self.notify_user_friends(new_user)
@@ -24,8 +24,8 @@ class Notifier
   end
 
   def self.send_friend_join_email(friend, new_user)
-    msg = UserMailer.friend_join_email(friend, new_user)
-    msg.deliver!
+    msg = UserMailer.delay.friend_join_email(friend, new_user)
+    # msg.deliver!
   end
 
   def self.send_rec_notifications
@@ -59,12 +59,12 @@ class Notifier
   end
 
   def self.send_new_rec_email(user, rec_ids)
-    msg = RecommendationMailer.item_recommendations_email(user, rec_ids.length)
+    msg = RecommendationMailer.delay.item_recommendations_email(user, rec_ids.length)
     
-    if msg.deliver
+    # if msg.deliver
       rec_ids.each {|rec_id| RecNotification.create(user_item_recommendation_id: rec_id)}
-    else
-      puts "message delivery failed"
-    end
+    # else
+    #   puts "message delivery failed"
+    # end
   end
 end
