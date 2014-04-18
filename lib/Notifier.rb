@@ -29,7 +29,7 @@ class Notifier
   end
 
   def self.send_rec_notifications
-    user_recs_hash = Hash.new {|h, k| h[k] = []}
+    users_recs_hash = Hash.new {|h, k| h[k] = []}
 
     # maybe create a single query for this eventually.    
     # SELECT uir.to_user_id, count(*)
@@ -41,11 +41,30 @@ class Notifier
 
     recs = UserItemRecommendation.includes(:rec_notifications).scoped
     recs.select! {|rec| rec.rec_notifications.empty? }
+    user_ids = []
 
     recs.each do |rec|
       receiving_user_id = rec.to_user_id.to_s
-      user_recs_hash[receiving_user_id] << rec.id
+      user_ids << rec.to_user_id
+      users_recs_hash[receiving_user_id] << rec.id
     end
-    puts user_recs_hash
+
+    # users_recs_hash
+
+    users_to_email = User.where(id: user_ids, account_active: true)
+
+    users_to_email.each do |user|
+      Notifier.send_new_rec_email(user, users_recs_hash[user.id.to_s]) 
+    end
+  end
+
+  def self.send_new_rec_email(user, rec_ids)
+    msg = RecommendationMailer.item_recommendations_email(user, rec_ids.length)
+    
+    if msg.deliver
+      rec_ids.each {|rec_id| RecNotification.create(user_item_recommendation_id: rec_id)}
+    else
+      puts "message delivery failed"
+    end
   end
 end
