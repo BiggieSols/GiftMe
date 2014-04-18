@@ -28,16 +28,16 @@ class Notifier
     # msg.deliver!
   end
 
-  def self.send_rec_notifications
-    users_recs_hash = Hash.new {|h, k| h[k] = []}
-
-    # maybe create a single query for this eventually.    
+  # maybe create a single query for this eventually:    
     # SELECT uir.to_user_id, count(*)
     # FROM user_item_recommendations uir
     # LEFT OUTER JOIN rec_notificaitons rn
     # ON (uir.id = rn.user_item_recommendation_id)
     # WHERE rn.user_item_recommendation_id IS NULL
     # GROUP BY uir.to_user_id
+  def self.send_rec_notifications
+
+    users_recs_hash = Hash.new {|h, k| h[k] = []}
 
     recs = UserItemRecommendation.includes(:rec_notifications).scoped
     recs.select! {|rec| rec.rec_notifications.empty? }
@@ -48,8 +48,6 @@ class Notifier
       user_ids << rec.to_user_id
       users_recs_hash[receiving_user_id] << rec.id
     end
-
-    # users_recs_hash
 
     users_to_email = User.where(id: user_ids, account_active: true)
 
