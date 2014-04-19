@@ -47,7 +47,9 @@ class User < ActiveRecord::Base
       user.save_friend_entries
       user.save!
       # user.send_welcome_email_if_new_user
-      Notifier.generate_messages(user)
+
+      # turning this off in production for now...
+      # Notifier.generate_messages(user)
     end
   end
 
