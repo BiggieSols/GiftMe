@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.get_pictures
       user.friend_uids_mutual_friend_count = user.query_friend_ids
-      # user.save_friend_entries
+      user.save_friend_entries
       user.save!
       # user.send_welcome_email_if_new_user
       Notifier.generate_messages(user)
