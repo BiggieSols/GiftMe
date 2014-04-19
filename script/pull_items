@@ -14,11 +14,11 @@ PAGES = (1..5).to_a
 results = []
 
 SEARCH_INDICES = [, 
-'Books', 'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches',
+'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches',
 ]
 
 =begin
-,
+'Books',
 'Classical',
 'Collectibles',
 'Grocery',
