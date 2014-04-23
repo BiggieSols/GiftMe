@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  require 'lib/notifier.rb '
+
   serialize :friend_uids_mutual_friend_count, JSON
 
   attr_accessible :name, :oauth_expires_at, :oauth_token, :provider, :uid, :small_picture_url, :large_picture_url, :friend_uids_mutual_friend_count, :birthday_date, :account_active
@@ -35,9 +37,10 @@ class User < ActiveRecord::Base
     # Note: auth object is a OmniAuth::AuthHash
 
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+      user ||= User.find_by_uid(auth.uid)
+      user.uid = auth.uid
       user.account_active = true
       user.provider = auth.provider
-      user.uid = auth.uid
       user.name = auth.info.name
       user.email = auth.info.email
       user.oauth_token = auth.credentials.token
