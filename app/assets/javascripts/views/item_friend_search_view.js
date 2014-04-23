@@ -1,6 +1,6 @@
 GiftMe.Views.ItemFriendSearchView = GiftMe.Views.FriendSearchView.extend({
   initialize: function() {
-    this.placeholder = "Recommend to a friend...";
+    this.placeholder = "Recommend for a friend...";
     this.width = "180px";
   },
 
