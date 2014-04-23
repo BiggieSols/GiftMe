@@ -12,7 +12,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
     var that = this;
 
-    GiftMe.dispatcher.on("newFormRender", function() {
+    GiftMe.dispatcher.on("newRecFormRender", function() {
       that.$('.recommend-item').html("");
     });
   },

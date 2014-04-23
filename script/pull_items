@@ -14,7 +14,7 @@ PAGES = (1..5).to_a
 results = []
 
 SEARCH_INDICES = [ 
-'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches', 'Tools', 'Toys', 'Wireless', 'WirelessAccessories'
+  'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches', 'Tools', 'Toys', 'Wireless', 'WirelessAccessories'
 ]
 
 =begin
@@ -45,16 +45,19 @@ SEARCH_INDICES = [
 
 SEARCH_INDICES.each do |index|
   PAGES.each do |page|
-    res = Amazon::Ecs.item_search(
-      'call', {
-        :response_group => 'Large', 
-        :sort => 'salesrank', 
-        :search_index => index, 
-        :item_page => page 
-      }
-    )
-    puts res
-    results += res.items
+    begin
+      res = Amazon::Ecs.item_search(
+        'call', {
+          :response_group => 'Large', 
+          :sort => 'salesrank', 
+          :search_index => index, 
+          :item_page => page 
+        }
+        )
+      puts res
+      results += res.items
+    rescue
+    end
   end
 end
 
@@ -72,7 +75,7 @@ item_results.each do |item|
   else
     puts "item not found"
   end
-  item.save
+  # item.save
   puts "ASIN is #{item.asin}"
 end
 

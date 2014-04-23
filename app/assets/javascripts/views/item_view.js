@@ -17,7 +17,7 @@ GiftMe.Views.ItemView = Backbone.View.extend({
   },
 
   showRecommendForm: function() {
-    GiftMe.dispatcher.trigger("newFormRender");
+    GiftMe.dispatcher.trigger("newRecFormRender");
     this._renderRecommendForm();
   },
 
