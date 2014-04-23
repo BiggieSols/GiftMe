@@ -20,7 +20,8 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     "users/:id": "user",
     "items/:id": "item",
     "items": "all_items",
-    "friends":"friends"
+    "friends":"friends",
+    "onboard":"onboard"
   },
 
   all_items: function() {
@@ -57,6 +58,11 @@ GiftMe.Routers.Router = Backbone.Router.extend({
     });
   },
 
+  onboard: function() {
+    // TODO: have the user's friends load in the background here instead of at login to improve efficiency
+    var onboardView = new GiftMe.Views.OnboardView({model: GiftMe.currentUser});
+    this._swapView(onboardView);
+  },
 
   recommended_items: function(id) {
     this._showItems({id: id, recommended: true});
