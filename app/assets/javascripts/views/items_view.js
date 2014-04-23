@@ -7,8 +7,9 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     'submit #item-filters':'resetCollection',
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.listenToOnce(this.collection, "sync", this.render);
+    this.showRecForm = options.showRecForm;
 
     var that = this;
 
@@ -74,7 +75,7 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     if(itemsToAdd.length > 0) {
       var that = this;
       itemsToAdd.forEach(function(item) {
-        itemView = new GiftMe.Views.ItemView({model: item});
+        itemView = new GiftMe.Views.ItemView({model: item, showRecForm: that.showRecForm});
         that.$container.append(itemView.render().$el);
         that.$container.masonry('addItems', itemView.render().$el);
       });

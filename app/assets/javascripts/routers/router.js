@@ -25,7 +25,7 @@ GiftMe.Routers.Router = Backbone.Router.extend({
 
   all_items: function() {
     GiftMe.items.fetch({remove: false});
-    var itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items});
+    itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items, showRecForm: true});
     this._swapView(itemsView);
   },
 

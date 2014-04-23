@@ -3,6 +3,11 @@ GiftMe.Views.ItemView = Backbone.View.extend({
 
   tagName: "span",
 
+  initialize: function(options) {
+    // this.model = options.model;
+    this.showRecForm = options.showRecForm;
+  },
+
   events: {
     'mouseenter .item':'showRecommendForm',
     // 'mouseleave .item':'_removeRecommendForm'
@@ -17,14 +22,15 @@ GiftMe.Views.ItemView = Backbone.View.extend({
   },
 
   showRecommendForm: function() {
-    GiftMe.dispatcher.trigger("newRecFormRender");
-    this._renderRecommendForm();
+    if(this.showRecForm) {
+      GiftMe.dispatcher.trigger("newRecFormRender");
+      this._renderRecommendForm();
+    }
   },
 
   render: function() {
     return this._renderItem()
                ._renderFavoriteButton();
-               // ._renderRecommendForm();
   },
 
   _renderItem: function() {
@@ -35,7 +41,8 @@ GiftMe.Views.ItemView = Backbone.View.extend({
     var renderedContent = this.template({
       item: this.model,
       price: priceStr,
-      user: GiftMe.currentUser
+      user: GiftMe.currentUser,
+      showRecForm: this.showRecForm
     });
     
     this.$el.html(renderedContent);
