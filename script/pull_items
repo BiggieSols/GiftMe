@@ -9,7 +9,6 @@ Amazon::Ecs.options = {
 
 SEARCH_INDICES = []
 PAGES = (1..5).to_a
-# PAGES = (1..2).to_a
 
 results = []
 
@@ -53,7 +52,7 @@ SEARCH_INDICES.each do |index|
           :search_index => index, 
           :item_page => page 
         }
-        )
+      )
       puts res
       results += res.items
     rescue
@@ -75,7 +74,7 @@ item_results.each do |item|
   else
     puts "item not found"
   end
-  item.save
+  item.save if item.price > 499
   puts "ASIN is #{item.asin}"
 end
 
