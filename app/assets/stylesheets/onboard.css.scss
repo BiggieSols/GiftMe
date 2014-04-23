@@ -9,4 +9,14 @@
 
 .gift-group-container {
   text-align: center;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.gift-group-container:hover {
+  cursor: pointer;
+  -moz-box-shadow: 3px 3px 4px #C0C0C0; 
+   -webkit-box-shadow: 3px 3px 4px #C0C0C0; 
+   box-shadow: 3px 3px 4px #C0C0C0;
 }
