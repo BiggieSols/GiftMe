@@ -1,6 +1,6 @@
 GiftMe.Collections.Items = Backbone.Collection.extend({
   initialize: function(options) {
-    // var options = options || {};
+    var options = options || {};
     if(options.minPrice) this.minPrice = options.minPrice * 100;
     if(options.maxPrice) this.maxPrice = options.maxPrice * 100;
     this.category = options.category;

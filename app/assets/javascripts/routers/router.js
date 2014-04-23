@@ -1,12 +1,12 @@
 GiftMe.Routers.Router = Backbone.Router.extend({
   initialize: function(options){
     this.$rootEl = options.$rootEl;
-    GiftMe.items = new GiftMe.Collections.Items({});
+    GiftMe.items = new GiftMe.Collections.Items();
     GiftMe.users = new GiftMe.Collections.Users();
     GiftMe.currentUser = new GiftMe.Models.User({id: "current"});
     // GiftMe.users.add(GiftMe.currentUser);
 
-    GiftMe.items.fetch();
+    // GiftMe.items.fetch();
     GiftMe.currentUser.fetch();
     GiftMe.users.fetch({
       success: function() {
@@ -25,7 +25,9 @@ GiftMe.Routers.Router = Backbone.Router.extend({
   },
 
   all_items: function() {
+    // if(GiftMe.items.models.length < 2) {
     GiftMe.items.fetch({remove: false});
+    // }
     itemsView = new GiftMe.Views.ItemsView({collection: GiftMe.items, showRecForm: true});
     this._swapView(itemsView);
   },

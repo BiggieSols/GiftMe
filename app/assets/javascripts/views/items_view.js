@@ -18,6 +18,36 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     });
   },
 
+  nextPage: function () {
+    var that = this;
+    if ($(window).scrollTop() > $(document).height() - $(window).height() - 300) {
+      console.log("scrolled to bottom!");
+
+      if (that.collection.page_number < that.collection.total_pages) {
+        that.collection.fetch({
+          data: { page: ++that.collection.page_number },
+          remove: false,
+          wait: true,
+          success: function () {
+            console.log("successfully fetched page " + that.collection.page_number);
+            that._renderNewItems();
+          }
+        });
+      }
+    }
+  },
+
+  render: function() {
+    this._renderSkeleton()
+        ._renderLoadingBar()
+        ._revealLoadingBar()
+        ._renderFilters();
+
+    if(this.collection.models.length > 2) this._renderItems();
+    
+    return this;
+  },
+
   resetCollection: function(event) {
     var newItems;
 
@@ -37,41 +67,12 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
 
         // note: need to render loading bar first
         that._renderLoadingBar()._renderItems();
-        that._showLoadingBar();
+        that._revealLoadingBar();
       }
     });
   },
 
-
-  render: function() {
-    this._renderSkeleton()
-        ._renderFilters()
-        ._renderLoadingBar()
-        ._renderItems();
-
-    this._showLoadingBar();
-    return this;
-  },
-
-  _renderFilters: function() {
-    var filterView = new GiftMe.Views.FilterView({collection: this.collection});
-    this.$el.find("#filters").html(filterView.render().$el);
-    return this;
-  },
-
-  _renderSkeleton: function() {
-    var renderedContent = this.itemsSkeleton({items: this.collection});
-    this.$el.html(renderedContent);
-    return this;
-  },
-
-  _renderLoadingBar: function() {
-    var renderedContent = this.loading();
-    this.$el.append(renderedContent);
-    return this;
-  },
-
-  _append: function(itemsToAdd) {
+  _append: function(itemsToAdd, callback) {
     if(itemsToAdd.length > 0) {
       var that = this;
       itemsToAdd.forEach(function(item) {
@@ -96,7 +97,30 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     return this;
   },
 
+  _checkLoadingBar: function() {
+    console.log("testing loading bar");
+    console.log("total pages: " + this.collection.total_pages);
+    console.log("page number: " + this.collection.page_number);
+
+    if(this.collection.page_number >= this.collection.total_pages) {
+      this._removeLoadingBar();
+    }
+  },
+
+  _listenForScroll: function () {
+    $(window).off("scroll"); // remove past view's listeners
+    var throttledCallback = _.throttle(this.nextPage.bind(this), 1000);
+    $(window).on("scroll", throttledCallback);
+  },
+
+  _renderFilters: function() {
+    var filterView = new GiftMe.Views.FilterView({collection: this.collection});
+    this.$el.find("#filters").html(filterView.render().$el);
+    return this;
+  },
+
    _renderItems: function() {
+    console.log("rendering items");
     var itemView;
 
     // initialize masonry
@@ -108,24 +132,28 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     var itemsToAdd = this.collection.models;
     this._append(itemsToAdd);
 
-    this.listenForScroll();
+    this._listenForScroll();
+    return this;
+  },
+
+  _renderLoadingBar: function() {
+    console.log("rendering loading bar");
+    var renderedContent = this.loading();
+    this.$el.append(renderedContent);
     return this;
   },
 
   _renderNewItems: function() {
+    console.log("rendering new items");
     var itemsToAdd = this.collection.models.slice(this.collection.models.length - 20);
     this._append(itemsToAdd);
     return this;
   },
 
-  listenForScroll: function () {
-    $(window).off("scroll"); // remove past view's listeners
-    var throttledCallback = _.throttle(this.nextPage.bind(this), 1000);
-    $(window).on("scroll", throttledCallback);
-  },
-
-  _showLoadingBar: function() {
-    $('.loading-bar').slideDown("slow");
+  _renderSkeleton: function() {
+    var renderedContent = this.itemsSkeleton({items: this.collection});
+    this.$el.html(renderedContent);
+    return this;
   },
 
   _removeLoadingBar: function() {
@@ -133,33 +161,9 @@ GiftMe.Views.ItemsView = Backbone.View.extend({
     this.$el.find('.loading-bar').remove();
   },
 
-  _checkLoadingBar: function() {
-    // console.log("testing loading bar");
-    console.log("total pages: " + this.collection.total_pages);
-    console.log("page number: " + this.collection.page_number);
-
-    if(this.collection.page_number >= this.collection.total_pages) {
-      this._removeLoadingBar();
-    }
+  _revealLoadingBar: function() {
+    console.log("revealing loading bar");
+    $('.loading-bar').slideDown("slow");
+    return this;
   },
-
-  nextPage: function () {
-    var that = this;
-    if ($(window).scrollTop() > $(document).height() - $(window).height() - 300) {
-      console.log("scrolled to bottom!");
-
-      if (that.collection.page_number < that.collection.total_pages) {
-        that.collection.fetch({
-          data: { page: ++that.collection.page_number },
-          remove: false,
-          wait: true,
-          success: function () {
-            console.log("successfully fetched page " + that.collection.page_number);
-            that._renderNewItems();
-          }
-        });
-      }
-    }
-  },
-
 });
