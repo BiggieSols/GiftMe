@@ -13,8 +13,8 @@ PAGES = (1..5).to_a
 
 results = []
 
-SEARCH_INDICES = [, 
-'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches',
+SEARCH_INDICES = [ 
+'VideoGames', 'Electronics', 'DVD', 'Kitchen', 'OutdoorLiving', 'SportingGoods', 'Watches', 'Tools', 'Toys', 'Wireless', 'WirelessAccessories'
 ]
 
 =begin
@@ -36,13 +36,9 @@ SEARCH_INDICES = [,
 'PetSupplies',
 'Photo',
 'Software',
-'Tools',
-'Toys',
 'UnboxVideo',
 'VHS',
 'Video',
-'Wireless',
-'WirelessAccessories'
 ]
 =end
 
