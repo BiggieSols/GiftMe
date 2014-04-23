@@ -55,5 +55,4 @@ class Item < ActiveRecord::Base
       self.category = "books"
     end
   end
-
 end
